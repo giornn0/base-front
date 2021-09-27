@@ -1,0 +1,279 @@
+<div class="row wrapp-all animated fadeIn">
+  <div class="col-sm-12 pb-2">
+    <div class="row " style="height: 7vh">
+      <div class="col-xl-6">
+        <label class="form-title">Mis pagos ({{itemsPerPage}} de {{ totalItems }})</label>
+      </div>
+      <div class="col-xl-6  pb-2">
+        <div class="row">
+          <div class="col-7">
+            <div class="input-group append">
+              <input
+                class="form-control"
+                placeholder="Busqueda.."
+                id="busqueda"
+                #busqueda
+                (keyup)="searchByEvent($event, busqueda.value)"
+              />
+              <button
+                class="input-group-btn btn btn-light"
+                type="submit"
+                (click)="search(busqueda.value)"
+              >
+                <i class="fa fa-search"></i>
+              </button>
+              <button
+                *ngIf="busqueda.value"
+                class="input-group-btn btn btn-danger"
+                type=""
+                (click)="cleanSearch()"
+              >
+                <i class="fa fa-window-close bg-danger"></i>
+              </button>
+            </div>
+          </div>
+          <div class="col-5">
+            <div class="row">
+              <div class="col-8">
+                <button
+                  class="btn btn-block btn-primary pl-1 pr-1"
+                  routerLink="/pagos/crear"
+                >
+                  <i class="fa fa-plus"></i><strong>  CREAR</strong>
+                </button>
+              </div>
+              <div class="col-4">
+                <button class="btn btn-block btn-secondary">
+                  <i class="icon-menu"></i>
+                </button>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12" style="padding-bottom: 2vh" *ngIf="pagos && pagos.length" >
+          <accordion [isAnimated]="true" >
+          <accordion-group  class="mb-20n list" *ngFor="let obj of pagos; let i = index" [isOpen]="isActive(i)" [isDisabled]="true" 
+          
+          (mouseenter)="hoving(i)"
+          (mouseleave)="notHoving()"
+          >
+            <div class="row  " accordion-heading 
+            >
+              <div class="col-12 ">
+              <div class="row justify-content-between
+              align-items-center">
+                <div class="col-sm-10 "
+                (click)="openCloseAccordion(i)">
+                      <button
+                        class="
+                        btn btn-link btn-block
+                        justify-content-between
+                        align-items-center
+                        d-flex
+                        w-100
+                        shadow-none
+                        p-0
+                        "
+                        style="text-decoration: none;"
+                        type="button"
+                        >
+                        <div class="pull-left float-left font-weight-bold em-11 text-dark">
+                          <i class="fa fa-credit-card mr-4 text-primary scaling"></i>
+                           <i class="fa fa-dollar text-success mr-1"></i>{{obj.monto}}  /  <i class="fa fa-calendar text-names mr-1"></i>{{formatDate(obj.fecha_pago)}}</div>
+                      </button>
+                  </div>
+                  <div class="col-sm-2 ">
+                    <div class="row justify-content-between
+                    align-items-center">
+                    <div class="col-9 ">
+                      <app-buttons-actions
+                      class="animated fadeIn"
+                      *ngIf="accordionHoving-1 == i"
+                          [nombre]="obj.titulo"
+                          seccion="pagos"
+                          [id]="obj.pago_id"
+                          (deleting)="onModalClose = $event"
+                          (confirmDelete)="delete($event)"
+                          ></app-buttons-actions>
+                    </div>
+                  <div class="col-3">
+                    <i 
+                    [ngClass]="isActive(i) ?'fa fa-chevron-down light  ':'fa fa-chevron-right light  '" 
+                    type="button"
+                    (click)="openCloseAccordion(i)"></i>
+                  </div>
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div>
+            <div class="row justify-content-between" (mouseenter)="hoving(i)"
+            >
+              <div class="col-sm-12">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="d-inline-block mr-5 mb-3">
+                      <span>
+                        <i class="fa fa-id-card-o mr-1"></i>  <i></i>Monto</span><br />
+                      <h4 class="mb-0 text-primary font-weight-bold">{{ obj.monto }}</h4>
+                    </div>
+                    <div class="d-inline-block mr-5 mb-3">
+                      <span><i class="fa fa-user-o mr-1"></i>  <i>Medio pago</i></span><br />
+                      <h4 class="mb-0 text-names font-weight-bold">{{mediosPago[obj.medio_pago-1]}}</h4>
+                    </div>
+                    <div class="d-inline-block mr-5 mb-3">
+                      <span><i [ngClass]="obj.aceptado?'fa fa-check text-success mr-1':'fa fa-window-close text-danger mr-1'"></i>  <i>Estado</i></span><br />
+                      <h4 class="mb-0 font-weight-bold " [ngClass]="obj.aceptado?'text-success':'text-danger'">{{obj.aceptado?'Aceptado':'Rechazado/En espera' }}</h4>
+                    </div>
+                    <div class="d-inline-block mr-5 mb-3">
+                      <span><i class="fa fa-calendar mr-1"></i>  <i>Fecha Pago</i></span><br />
+                      <h4 class="mb-0 text-numbers font-weight-bold" style="text-align: end">{{obj.fecha_pago.slice(0,10).split('-').reverse().join('/')}}</h4>
+                    </div>
+                    <div class="d-inline-block mr-5 mb-3">
+                      <span><i class="fa fa-calendar mr-1"></i>  <i>Fecha creación</i></span><br />
+                      <h4 class="mb-0 text-numbers font-weight-bold" style="text-align: end">{{obj.created_at.slice(0,10).split('-').reverse().join('/')}}</h4>
+                    </div>
+                    <div class="d-inline-block mr-5 mb-3">
+                      <span><i class="fa fa-calendar mr-1"></i>  <i>Fecha actualización</i></span><br />
+                      <h4 class="mb-0 text-numbers font-weight-bold" style="text-align: end">{{ obj.updated_at.slice(0,10).split('-').reverse().join('/') }}</h4>
+                    </div>
+                    <div class="d-inline-block mr-5 mb-3 pull-right">
+                      <span><i class="fa fa-plus mr-1"></i>  <i>Comprobante</i></span><br />
+                      <div *ngIf="imgSource[i]">
+                        <img appOnClick *ngIf="imgSource[i][0]" (clicked)="imgSource[i][1]=$event" [src]="imgSource[i][0]" height="120" width="120" [ngClass]="imgSource[i][1]?'show-image':'image'">
+                        <div *ngIf="imgSource[i][1]" class="overlay">
+                        </div>
+                      </div>
+                    </div>
+                    <br />
+                    <hr />
+                    <div class="row" *ngIf="contratos[i]">
+                      <div class="col-6">
+                        <div class="row">
+                          <div class="col-12">
+                            <strong>
+                              <i class="fa fa-list-ul bg-secondary"></i>  Contrato:
+                              <label *ngIf=" !contratos[i][1]" class="text-danger"><i class="fa fa-close"></i>Error buscando el contrato</label>
+                              <img *ngIf="!contratos[i].length" src="assets/img/brand/inPageSpinner.svg" height="45" width="45">
+                            </strong>                      
+                          </div>
+                        </div>
+                        </div>
+                      </div>
+                    <div class="row" *ngIf="contratos[i]">
+                      <div class="col-12 table-responsive" *ngIf="contratos[i][1]">
+                        <table class="table-sm table-hover table-stripped" >
+                          <thead>
+                            <tr>
+                              <th scope="col">
+                                <span><i>Numero Contrato</i></span></th>
+                              <th scope="col">
+                                <span><i>Financiacion</i></span></th>
+                              <th scope="col" style="text-align: end">
+                                <span><i>Observaciones</i></span></th>
+                              <th scope="col" style="text-align:center">
+                                <span><i>Valor</i></span></th>
+                              <th scope="col" style="text-align:center">
+                                <span><i>Fecha actualización</i></span></th>
+                              <th scope="col" style="text-align:center">Acciones</th>
+                            </tr>
+                          </thead>
+                          <tbody >
+                            <tr >
+                              <td>
+                                <h5 class="font-weight-bold" style="color: #32506d">
+                                  {{contratos[i][0].numero_contrato}}
+                                </h5>
+                              </td>
+                              <td>
+                                <h5 class="font-weight-bold text-primary" >
+                                  
+                                  {{
+                                    contratos[i][0].financiacion
+                                  }}
+                                </h5>
+                              </td>
+                              <td style="text-align: end">
+                                <h5 class="font-weight-bold text-primary" >
+                                  {{
+                                    contratos[i][0].observaciones
+                                  }}
+                                </h5>
+                              </td>
+                              <td style="text-align: center">
+                                <h5 class="font-weight-bold text-numbers">
+                                  {{
+                                    contratos[i][0].presupuesto
+                                  }}
+                                </h5>
+                              </td>
+                              <td style="text-align: center">
+                                <h5 class="font-weight-bold text-numbers">
+                                  {{
+                                    contratos[i][0].updated_at.slice(0,10).split('-').reverse().join('/')
+                                  }}
+                                </h5>
+                              </td>
+                              <td style="text-align:center">
+                                <app-buttons-actions
+                                    [wantShow]="false"
+                                    [id]="contratos[i][0].contrato_id"
+                                    seccion="contratos"
+                                    [nombre]="contratos[i][0].numero_contrato"
+                                    (confirmDelete)="deletePlan($event, i)"
+                                    >
+                                    </app-buttons-actions>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </accordion-group>
+        </accordion>
+      </div>
+      <div class="col-12">
+        <div class="row justify-content-between">
+          <div class="col-xs-1">
+            <div class="input-group" style="margin-left: 1.5vw">
+              <div class="input-group-prepend marg-left" style="padding-top: 0.5vh;">Ver </div>
+              <select #pager id="pager" (change)="changeTotalItems(pager.value)" 
+              class="form-control marg-left"  style="height:67%;">
+              <option [value]="itemsPerPage" default>{{itemsPerPage}}</option>
+              <option *ngFor="let take of takeOptions" [value]="take">{{take}}</option>
+            </select>
+            <div class="input-group-append marg-left" style="padding-top: 0.5vh;"> elementos</div>
+          </div>
+          </div>
+          <div class="row  marg-right">
+            <div class="col-12">
+              <div class="d-inline-block mr-3">
+                Pagina {{currentPage}} de {{totalPages}}
+              </div>
+              <div class="d-inline-block">
+                <pagination
+                  class="pagination-md "
+                  [maxSize]="5"
+                  [(ngModel)]="currentPage"
+                  [totalItems]="totalItems"
+                  previousText="&lsaquo;"
+                  nextText="&rsaquo;"
+                  firstText="&laquo;"
+                  lastText="&raquo;"
+                  [boundaryLinks]="true"
+                  (pageChanged)="pageChange($event)"
+                  [itemsPerPage]="itemsPerPage"
+                >
+              </pagination>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

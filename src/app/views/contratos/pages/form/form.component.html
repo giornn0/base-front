@@ -1,0 +1,321 @@
+<div class="row wrapp-all">
+    <div class="col-sm-12">
+      <div class="form-title" >
+        <strong  >{{isEdit?'Editando':'Nuevo'}} Contrato</strong>
+      </div>
+      <div class="card" style="margin-top: 2vh">
+        <div class="card-body">
+          <form [formGroup]="contratoForm">
+            <div class="row">              
+              <div class="form-group col-sm-4"                  
+                >
+                  <label class="form-col-form-label" for="numero_contrato"
+                    >Numero contrato <strong class="leyenda-req">*</strong></label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="numero_contrato"
+                    formControlName="numero_contrato"
+                    [ngClass]="isInvalid('numero_contrato')?'form-control is-invalid':'form-control'"
+                    [ngClass]="(!isInvalid('numero_contrato'))&& isTouched('numero_contrato')?'form-control is-valid':'form-control'"
+                  />
+                </div>
+              <div class="form-group col-sm-4"
+              >
+                <label class="form-col-form-label" for="tipo_contrato"
+                  >Tipo contrato <strong class="leyenda-req">*</strong></label
+                >
+                <select
+            type="text"
+            class="form-control"
+            [ngClass]="isInvalid('tipo_contrato')?'form-control is-invalid':'form-control'"
+            [ngClass]="(!isInvalid('tipo_contrato'))&& isTouched('tipo_contrato')?'form-control is-valid':'form-control'"
+            id="tipo_contrato"
+            formControlName="tipo_contrato"
+            
+            >
+            <option [value]="null">Seleccione..</option>
+            <option  >Directa</option>
+            <option  >Plan</option>
+                </select>          
+              </div>
+              <div class="form-group col-sm-4">
+                <label class="form-col-form-label" for="cliente_id"
+                  >Cliente <strong class="leyenda-req">*</strong></label
+                >
+                <select
+                type="text"
+                class="form-control"
+                [ngClass]="isInvalid('cliente_id')?'form-control is-invalid':'form-control'"
+                [ngClass]="(!isInvalid('cliente_id'))&& isTouched('cliente_id')?'form-control is-valid':'form-control'"
+                id="cliente_id"
+                formControlName="cliente_id"
+                
+                >
+                <option [value]="null">Seleccione..</option>
+                <option *ngFor="let cliente of clientes"  [value]="cliente.cliente_id">{{cliente.apellido}},{{cliente.nombre}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-3"
+          >
+          <label class="form-col-form-label" for="vendedor_id"
+          >Vendedor <strong class="leyenda-req">*</strong></label
+          > <select
+              type="text"
+              class="form-control"
+              [ngClass]="isInvalid('vendedor_id')?'form-control is-invalid':'form-control'"
+              [ngClass]="(!isInvalid('vendedor_id'))&& isTouched('vendedor_id')?'form-control is-valid':'form-control'"
+              id="vendedor_id"
+              formControlName="vendedor_id">
+              <option [value]="null">Seleccione..</option>
+              <option *ngFor="let vendedor of vendedores"  [value]="vendedor.vendedor_id">{{vendedor.name}}, {{vendedor.last_name}}</option>
+            </select>            
+          </div>
+            <div class="form-group col-sm-3"
+            >
+              <label class="form-col-form-label" for="valor_mt2"
+                >Valor vivienda
+                <strong class="leyenda-req">*</strong></label
+              >
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-dollar text-success "></i>
+                  </span>
+                </div>
+                <input
+                #valor_mt2
+                (keyup)="maskedMoneyValue($event)"
+                appAutofocus
+                (cleanInput)="focusClear('valor_mt2')"
+                  type="text"
+                  class="form-control text-center"
+                  [ngClass]="isInvalid('valor_mt2')?'form-control is-invalid':'form-control'"
+                  [ngClass]="(!isInvalid('valor_mt2'))&& isTouched('valor_mt2')?'form-control is-valid':'form-control'"
+                  id="valor_mt2"
+                  formControlName="valor_mt2"
+                />
+              </div>
+            </div>
+            <div class="form-group col-sm-3"
+            >
+            <label class="form-col-form-label" for="fecha_contrato"
+            >Fecha de contrato
+            <strong class="leyenda-req">*</strong></label>
+            <div class="input-group">
+              <input
+                type="text"
+                (keyup)="dateMask($event)"
+                class="form-control text-center"
+                bsDatepicker
+                placeholder="dd/mm/aaaa"
+                #dp="bsDatepicker"
+                formControlName="fecha_contrato"
+                [ngClass]="isInvalid('fecha_contrato')?'form-control is-invalid':'form-control'"
+                [ngClass]="(!isInvalid('fecha_contrato'))&& isTouched('fecha_contrato')?'form-control is-valid':'form-control'"
+                [bsConfig]="{
+                  isAnimated: true,
+                  dateInputFormat: 'DD/MM/YYYY',
+                  containerClass: 'theme-dark-blue'
+                }"
+              />
+              <div class="input-group-append"><button class="btn btn-primary" (click)="nowDate()">Hoy</button>
+              </div>
+            </div>
+            </div>
+            <div class="form-group col-sm-3"
+            >
+              <label class="form-col-form-label" for="terminacion"
+                >Terminacion
+                <strong class="leyenda-req">*</strong></label
+              >
+              <select
+              type="text"
+              class="form-control"
+              [ngClass]="isInvalid('terminacion')?'form-control is-invalid':'form-control'"
+              [ngClass]="(!isInvalid('terminacion'))&& isTouched('terminacion')?'form-control is-valid':'form-control'"
+              id="terminacion"
+              formControlName="terminacion">
+              <option [value]="null">Seleccione..</option>
+            <option>Premium</option>
+            <option>Onra Gris</option>
+            </select>            
+            </div>      
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-4">
+              <label class="form-col-form-label" for="financiacion"
+                >Financiación <strong class="leyenda-req">*</strong></label
+              >
+              <select
+              type="text"
+              class="form-control"
+              [ngClass]="isInvalid('financiacion')?'form-control is-invalid':'form-control'"
+              [ngClass]="(!isInvalid('financiacion'))&& isTouched('financiacion')?'form-control is-valid':'form-control'"
+              id="financiacion"
+              formControlName="financiacion">
+              <option [value]="null">Seleccione..</option>
+            <option>Cuotas</option>
+            <option>Directa</option>
+            </select>            
+            </div>
+            <div class="form-group col-sm-4">
+              <label class="form-col-form-label" for="tipo_construccion"
+                >Tipo Construccion <strong class="leyenda-req">*</strong></label
+              >
+              <select
+              type="text"
+              class="form-control"
+              [ngClass]="isInvalid('tipo_construccion')?'form-control is-invalid':'form-control'"
+              [ngClass]="(!isInvalid('tipo_construccion'))&& isTouched('tipo_construccion')?'form-control is-valid':'form-control'"
+              id="tipo_construccion"
+              formControlName="tipo_construccion"
+              
+              >
+              <option [value]="null">Seleccione..</option>
+              <option  >Industrializada</option>
+              <option  >Woodframe</option>
+              <option  >Steelframe</option>
+              <option  >Tradicional</option>
+            </select>
+          </div>
+          <div class="form-group col-sm-4">
+            <label class="form-col-form-label" for="tipologia"
+              >Tipologia <strong class="leyenda-req">*</strong></label
+            >
+            <select
+            type="text"
+            class="form-control"
+            [ngClass]="isInvalid('tipologia')?'form-control is-invalid':'form-control'"
+            [ngClass]="(!isInvalid('tipologia'))&& isTouched('tipologia')?'form-control is-valid':'form-control'"
+            id="tipologia"
+            formControlName="tipologia"
+            
+            >
+            <option [value]="null">Seleccione..</option>
+            <option  >Americana</option>
+            <option  >Minimalista</option>
+            <option  >Duplex</option>
+          </select>
+        </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-3"
+            >
+              <label class="form-col-form-label" for="dormitorios"
+                >Dormitorios
+                <strong class="leyenda-req">*</strong></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                [ngClass]="isInvalid('dormitorios')?'form-control is-invalid':'form-control'"
+                [ngClass]="(!isInvalid('dormitorios'))&& isTouched('dormitorios')?'form-control is-valid':'form-control'"
+                id="dormitorios"
+                formControlName="dormitorios"
+              />
+            </div><div class="form-group col-sm-3"
+            >
+              <label class="form-col-form-label" for="mt2_cubiertos"
+                >Mt2 Cubiertos
+                <strong class="leyenda-req">*</strong></label
+              >
+              <input
+                type="text"
+                (keyup)="maskedMt2Value($event)"
+                appAutofocus
+                (cleanInput)="focusClear('mt2_cubiertos')"
+                class="form-control text-center"
+                [ngClass]="isInvalid('mt2_cubiertos')?'form-control is-invalid':'form-control'"
+                [ngClass]="(!isInvalid('mt2_cubiertos'))&& isTouched('mt2_cubiertos')?'form-control is-valid':'form-control'"
+                id="mt2_cubiertos"
+                formControlName="mt2_cubiertos"
+              />
+            </div><div class="form-group col-sm-3"
+            >
+              <label class="form-col-form-label" for="mt2_semicubiertos"
+                >Mt2 Semicubiertos
+                <strong class="leyenda-req">*</strong></label
+              >
+              <input
+                type="text"
+                (keyup)="maskedMt2Value($event)"
+                appAutofocus
+                (cleanInput)="focusClear('mt2_semicubiertos')"
+                class="form-control text-center"
+                [ngClass]="isInvalid('mt2_semicubiertos')?'form-control is-invalid':'form-control'"
+                [ngClass]="(!isInvalid('mt2_semicubiertos'))&& isTouched('mt2_semicubiertos')?'form-control is-valid':'form-control'"
+                id="mt2_semicubiertos"
+                formControlName="mt2_semicubiertos"
+              />
+            </div><div class="form-group col-sm-3"
+            >
+              <label class="form-col-form-label" for="mt2_totales"
+                >Mt2 Totales
+                <strong class="leyenda-req">*</strong></label
+              >
+              <input
+                type="text"
+                class="form-control text-center"
+                [ngClass]="isInvalid('mt2_totales')?'form-control is-invalid':'form-control'"
+                [ngClass]="(!isInvalid('mt2_totales'))&& isTouched('mt2_totales')?'form-control is-valid':'form-control'"
+                id="mt2_totales"
+                formControlName="mt2_totales"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-2">
+              <label class="form-col-form-label" for="observaciones"
+                >Observaciones </label
+              >
+            </div>
+            <div class="form-group col-sm-7">
+              <textarea
+                type="text"
+                class="form-control"
+                [ngClass]="isInvalid('observaciones')?'form-control is-invalid':'form-control'"
+                [ngClass]="(!isInvalid('observaciones'))&& isTouched('observaciones')?'form-control is-valid':'form-control'"
+                id="observaciones"
+                formControlName="observaciones">
+              </textarea>
+            </div>
+            <div class=" form-group col-sm-3">
+              <label class="form-col-form-label form custom-file-upload pt-5" for="file">
+                <i class="fa fa-cloud-upload text-primary"></i>
+                Archivos</label>
+                <img
+                  *ngIf="fileURL"
+                  [src]="fileURL"
+                  appOnClick
+                  (clicked)="focusing = $event"                      
+                  [ngClass]="focusing? 'show-image':'image'" 
+                  height="200" width="200"/>
+              <input 
+                type="file"
+                class="form-control"
+                id="file"
+               (change)="upload($event)"
+                />
+                <div class="overlay" *ngIf="focusing"></div>
+          </div>
+          </div>
+          </form>
+          <hr>
+          Los campos marcados con   <strong class="leyenda-req">*</strong>   son obligatorios
+        </div>        
+      <div class="card-footer">
+        <div class="justify-content-between d-flex w-100-sm">
+          <button class="btn  btn-danger active" style="width:25%" [routerLink]="['/obrasSociales/listar']"><strong>CANCELAR</strong></button>
+          <button [ngClass]="isEdit?'btn  btn-success active':'btn  btn-primary active'" style="width:25%" (click)="submit()" [disabled]="contratoForm.invalid">
+            <strong>{{isEdit?'GUARDAR':'CREAR'}}</strong>
+          </button>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,19 @@
+<app-core-header></app-core-header>
+<div class="app-body">
+  <app-core-sidenav></app-core-sidenav>
+  <!-- Main content -->
+  <main class="main" style="padding-top: 1.5vh;">
+    <!-- Breadcrumb -->
+   <div class="container-fluid">
+      <alert *ngIf="alert.exists" [type]="alert.type" class="alert"  >
+        <h4 class="alert-heading"><strong>{{alert.title}}</strong> <i  class="fa fa-window-close pull-right float-right" style="color:red" (click)="removeAlert()" ></i></h4> 
+        <p *ngIf="alert.message.length" class="mb-0">{{alert.message}}</p>
+      </alert>
+      <app-loading-spinner *ngIf="loading"></app-loading-spinner>
+      <router-outlet></router-outlet>
+    </div>
+    <!-- /.container-fluid -->
+  </main>
+</div>
+<app-core-footer></app-core-footer>
+ 

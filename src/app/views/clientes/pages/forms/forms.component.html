@@ -1,0 +1,270 @@
+<div class="row wrapp-all">
+  <div class="col-sm-12">
+    <div class="form-title">
+      <strong>Nuevo Cliente </strong>
+    </div>
+    <div class="card" style="margin-top: 2vh">
+      <div class="card-body">
+        <form [formGroup]="clienteForm">
+          
+          <div class="row">
+              <div class="form-group col-sm-4"
+                
+              >
+                <label class="form-col-form-label" for="nombre"
+                  >Nombre/s <strong class="leyenda-req">*</strong></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nombre"
+                  formControlName="nombre"
+                  [ngClass]="isInvalid('nombre')?'form-control is-invalid':'form-control'"
+                  [ngClass]="(!isInvalid('nombre'))&& isTouched('nombre')?'form-control is-valid':'form-control'"
+                />
+              </div>
+            <div class="form-group col-sm-4"
+            >
+              <label class="form-col-form-label" for="apellido"
+                >Apellido/s <strong class="leyenda-req">*</strong></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="apellido"
+                formControlName="apellido"
+                [ngClass]="isInvalid('apellido')?'form-control is-invalid':'form-control'"
+                [ngClass]="(!isInvalid('apellido'))&& isTouched('apellido')?'form-control is-valid':'form-control'"
+              />              
+            </div>
+            <div class="form-group col-sm-4">
+              <label class="form-col-form-label" for="email"
+                >Email </label
+              >
+              <input
+                type="text"
+                class="form-control"
+                [ngClass]="isInvalid('email')?'form-control is-invalid':'form-control'"
+                [ngClass]="(!isInvalid('email'))&& isTouched('email')?'form-control is-valid':'form-control'"
+                id="email"
+                formControlName="email"
+              />
+            </div>
+            
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-3"
+          >
+              <label class="form-col-form-label" for="tipo_documento"
+                >Tipo documento <strong class="leyenda-req">*</strong></label
+              >
+              <select
+              class="form-control"
+              [ngClass]="isInvalid('tipo_documento')?'form-control is-invalid':'form-control'"
+              [ngClass]="(!isInvalid('tipo_documento'))&& isTouched('tipo_documento')?'form-control is-valid':'form-control'"
+                id="tipo_documento"
+                formControlName="tipo_documento"
+                pattern="[0-9]+"
+                required
+              >
+                <option default disabled [value]="null">Seleccione</option>
+                <option *ngFor="let tipo of tiposDoc" [value]="tipo.value">
+                  {{ tipo.name }}
+                </option>
+              </select>             
+            </div>
+            <div class="form-group col-sm-3"
+            >
+              <label class="form-col-form-label" for="numero_documento"
+                >Numero de documento
+                <strong class="leyenda-req">*</strong></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                [ngClass]="isInvalid('numero_documento')?'form-control is-invalid':'form-control'"
+                [ngClass]="(!isInvalid('numero_documento'))&& isTouched('numero_documento')?'form-control is-valid':'form-control'"
+                id="numero_documento"
+                formControlName="numero_documento"
+              />
+            </div>
+            <div class="form-group col-sm-3"
+            >
+              <label class="form-col-form-label" for="fecha_nacimiento"
+                >Fecha de nacimiento
+                <strong class="leyenda-req">*</strong></label
+              >
+              <input
+                type="text"
+                (keyup)="dateMask($event)"
+                class="form-control"
+                bsDatepicker
+                placeholder="dd/mm/aaaa"
+                #dp="bsDatepicker"
+                formControlName="fecha_nacimiento"
+                [ngClass]="isInvalid('fecha_nacimiento')?'form-control is-invalid':'form-control'"
+                [ngClass]="(!isInvalid('fecha_nacimiento'))&& isTouched('fecha_nacimiento')?'form-control is-valid':'form-control'"
+                [bsConfig]="{
+                  isAnimated: true,
+                  dateInputFormat: 'DD/MM/YYYY',
+                  containerClass: 'theme-dark-blue'
+                }"
+              />
+            </div>
+            <div class="form-group col-sm-3">
+              <label class="form-col-form-label" for="profesion"
+                >Profesión </label
+              >
+              <input
+                type="text"
+                class="form-control"
+                [ngClass]="isInvalid('profesion')?'form-control is-invalid':'form-control'"
+                [ngClass]="(!isInvalid('profesion'))&& isTouched('profesion')?'form-control is-valid':'form-control'"
+                id="profesion"
+                formControlName="profesion"
+              />
+              
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-4">
+              <label class="form-col-form-label" for="domicilio_dni"
+                >Domicilio <strong class="leyenda-req">*</strong></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                [ngClass]="isInvalid('domicilio_dni')?'form-control is-invalid':'form-control'"
+                [ngClass]="(!isInvalid('domicilio_dni'))&& isTouched('domicilio_dni')?'form-control is-valid':'form-control'"
+                id="domicilio_dni"
+                formControlName="domicilio_dni"
+              />
+              
+            </div>
+            <div class="form-group col-sm-4">
+              <label class="form-col-form-label" for="localidad"
+                >Localidad <strong class="leyenda-req">*</strong></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                [ngClass]="isInvalid('localidad')?'form-control is-invalid':'form-control'"
+                [ngClass]="(!isInvalid('localidad'))&& isTouched('localidad')?'form-control is-valid':'form-control'"
+                id="localidad"
+                formControlName="localidad"
+              />
+            </div>
+            <div class="form-group col-sm-4">
+              <label class="form-col-form-label" for="email"
+                >Código postal  <strong class="leyenda-req">*</strong></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                [ngClass]="isInvalid('codigo_postal')?'form-control is-invalid':'form-control'"
+                [ngClass]="(!isInvalid('codigo_postal'))&& isTouched('codigo_postal')?'form-control is-valid':'form-control'"
+                id="codigo_postal"
+                formControlName="codigo_postal"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-4">
+              <label class="form-col-form-label" for="phone"
+                >Teléfono  <strong class="leyenda-req">*</strong></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                [ngClass]="isInvalid('phone')?'form-control is-invalid':'form-control'"
+                [ngClass]="(!isInvalid('phone'))&& isTouched('phone')?'form-control is-valid':'form-control'"
+                id="phone"
+                formControlName="phone"
+              />
+            </div>
+            <div class="form-group col-sm-4">
+              <label class="form-col-form-label" for="cellphone"
+                >Célular <strong class="leyenda-req">*</strong> </label
+              >
+              <input
+                type="text"
+                class="form-control"
+                [ngClass]="isInvalid('cellphone')?'form-control is-invalid':'form-control'"
+                [ngClass]="(!isInvalid('cellphone'))&& isTouched('cellphone')?'form-control is-valid':'form-control'"
+                id="cellphone"
+                formControlName="cellphone"
+              />
+            </div>
+            <div class="form-group col-sm-4">
+              <label class="form-col-form-label" for="estado_civil"
+                >Estado Civil </label
+              >
+              <select
+              type="text"
+              class="form-control"
+              [ngClass]="isInvalid('estado_civil')?'form-control is-invalid':'form-control'"
+              [ngClass]="(!isInvalid('estado_civil'))&& isTouched('estado_civil')?'form-control is-valid':'form-control'"
+              id="estado_civil"
+              formControlName="estado_civil"
+              
+              >
+              <option [value]="null">Seleccione..</option>
+              <option  >Casado</option>
+              <option  >Soltero</option>
+              <option  >Divorciado</option>
+              <option  >-</option>
+            </select>
+          </div>           
+          </div>
+          <div class="row">
+            <div class=" form-group col-sm-6">
+              <label class="form-col-form-label form custom-file-upload pt-5" for="picture">
+                <i class="fa fa-cloud-upload text-primary"></i>Foto de Perfil</label>
+                <img
+                  *ngIf="pictureURL"
+                  [src]="pictureURL"
+                  appOnClick
+                  (clicked)="focusing = $event"                      
+                  [ngClass]="focusing? 'show-image':'image'" 
+                  class="" height="200" width="200"/>
+              <input 
+                type="file"
+                accept="image/*"
+                class="form-control"
+                id="picture"
+               (change)="upload($event)"
+                />
+                <div class="overlay" *ngIf="focusing"></div>
+                  <button class="btn btn-danger ml-5 mt-2" type="button"(click)="cleanBlob()"><i class="fa fa-trash"></i></button>
+              </div>
+          </div>
+        </form>
+        <div class="card-body">
+          <hr />
+        </div>        
+        <hr />
+        Los campos marcados con <strong class="leyenda-req">*</strong> son
+        obligatorios
+      </div>
+      <div class="card-footer">
+        <div class="justify-content-between d-flex w-100-sm">
+          <button
+            class="btn btn-danger active"
+            style="width: 25%"
+            [routerLink]="['/clientes/listar']"
+          >
+            <strong>CANCELAR</strong>
+          </button>
+          <button
+            class="btn btn-primary active"
+            style="width: 25%"
+            (click)="submit()"
+            [disabled]="clienteForm.invalid"
+          >
+            <strong>CREAR</strong>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

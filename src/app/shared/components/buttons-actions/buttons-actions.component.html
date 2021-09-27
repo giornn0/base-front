@@ -1,0 +1,26 @@
+
+<i *ngIf="wantShow" class="fa fa-eye text-secondary mr-4 scaling" (click)="goWatch()"></i>
+
+ <i *ngIf="wantEdit" class="fa fa-pencil mr-4 text-warning scaling" type="button" (click)="goEdit()"></i>
+
+<i *ngIf="wantDelete" type="button" class="fa fa-trash text-danger scaling" data-toggle="modal" (click)="openDeleteModal()"></i>
+
+<div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" (click)="modalClose()">
+    <div class="modal-dialog modal-danger" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Eliminar {{seccion}}</h4>
+          <button type="button" class="close" (click)="modalClose()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>¿Seguro que quiere eliminar {{nombre}}?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="modalClose()">Cancelar</button>
+          <button type="button" class="btn btn-danger" (click)="modalDelete()">Confirmar</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->

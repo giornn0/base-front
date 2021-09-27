@@ -1,0 +1,89 @@
+<div class="row wrapp-all">
+    <div class="col-sm-12">
+      <div class="form-title" >
+        <strong  >{{isEdit?'Editando':'Nuevo'}} Vendedor</strong>
+      </div>
+      <div class="card" style="margin-top: 2vh">
+        <div class="card-body">
+          <form [formGroup]="vendedorForm">
+            <div class="row">              
+              <div class="form-group col-sm-6"                  
+                >
+                  <label class="form-col-form-label" for="name"
+                    >Nombre <strong class="leyenda-req">*</strong></label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    formControlName="name"
+                    [ngClass]="isInvalid('name')?'form-control is-invalid':'form-control'"
+                    [ngClass]="(!isInvalid('name'))&& isTouched('name')?'form-control is-valid':'form-control'"
+                  />
+                </div>
+              <div class="form-group col-sm-6"
+              >
+                <label class="form-col-form-label" for="last_name"
+                  >Apellido <strong class="leyenda-req">*</strong></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="last_name"
+                  formControlName="last_name"
+                  [ngClass]="isInvalid('last_name')?'form-control is-invalid':'form-control'"
+                  [ngClass]="(!isInvalid('last_name'))&& isTouched('last_name')?'form-control is-valid':'form-control'"
+                />              
+              </div>              
+          </div>
+          <div class="row">           
+            <div class="form-group col-sm-6"                  
+                >
+                  <label class="form-col-form-label" for="numero_documento"
+                    >Numero Documento <strong class="leyenda-req">*</strong></label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="numero_documento"
+                    formControlName="numero_documento"
+                    [ngClass]="isInvalid('numero_documento')?'form-control is-invalid':'form-control'"
+                    [ngClass]="(!isInvalid('numero_documento'))&& isTouched('numero_documento')?'form-control is-valid':'form-control'"
+                  />
+                </div>
+                <div class=" form-group col-sm-6">
+                  <label class="form-col-form-label form custom-file-upload pt-5" for="picture">
+                    <i class="fa fa-cloud-upload text-primary"></i>Foto de Perfil</label>
+                    <img
+                      *ngIf="pictureURL"
+                      [src]="pictureURL"
+                      appOnClick
+                      (clicked)="focusing = $event"                      
+                      [ngClass]="focusing? 'show-image':'image'" 
+                      class="" height="200" width="200"/>
+                  <input 
+                    type="file"
+                    accept="image/*"
+                    class="form-control"
+                    id="picture"
+                   (change)="upload($event)"
+                    />
+                    <div class="overlay" *ngIf="focusing"></div>
+              </div>
+          </div>
+          </form>
+          <hr>
+          Los campos marcados con   <strong class="leyenda-req">*</strong>   son obligatorios
+        </div>        
+      <div class="card-footer">
+        <div class="justify-content-between d-flex w-100-sm">
+          <button class="btn  btn-danger active" style="width:25%" ><strong>CANCELAR</strong></button>
+          <button [ngClass]="isEdit?'btn  btn-success active':'btn  btn-primary active'" style="width:25%" (click)="submit()" [disabled]="vendedorForm.invalid">
+            <strong>{{isEdit?'GUARDAR':'CREAR'}}</strong>
+          </button>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,156 @@
+<div class="row wrapp-all">
+  <div class="col-sm-12">
+    <div  class="form-title">
+      <strong 
+        >{{title}}</strong
+      >
+    </div>
+    <div class="card" style="margin-top: 2vh;">
+      <div class="card-body">
+        <form [formGroup]="pagoForm">
+          <div class="row">
+            <div class="form-group col-sm-12"
+          >
+              <label
+                class="form-col-form-label form"
+                for="contrato_id"
+                >Contrato <strong class="leyenda-req">*</strong></label
+              >
+                <select
+                  class="form-control"
+                  [ngClass]="isInvalid('contrato_id')?'form-control is-invalid':'form-control'"
+                  [ngClass]="(!isInvalid('contrato_id'))&& isTouched('contrato_id')?'form-control is-valid':'form-control'"
+                  id="contrato_id"
+                  formControlName="contrato_id"
+                  required
+                >
+                  <option [value]="null" default disabled>Seleccione . . .</option>
+                  <option *ngFor="let contrato of contratos" [value]="contrato.contrato_id">
+                    {{ contrato.numero_contrato}}, {{formatDate(contrato.fecha_contrato)}} , {{contrato.tipo_contrato}}
+                  </option>
+                </select>
+             
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-3" 
+              
+            >
+            <label
+            class="form-col-form-label form"
+            for="medio_pago"
+            >Medio de pago <strong class="leyenda-req">*</strong></label
+          >
+            <select
+              class="form-control"
+              [ngClass]="isInvalid('medio_pago')?'form-control is-invalid':'form-control'"
+              [ngClass]="(!isInvalid('medio_pago'))&& isTouched('medio_pago')?'form-control is-valid':'form-control'"
+              id="medio_pago"
+              formControlName="medio_pago"
+              required
+            >
+              <option [value]="null" default disabled>Seleccione . . .</option>
+              <option  [value]="1">Transferencia</option>
+              <option  [value]="2">Efectivo</option>
+              <option  [value]="3">Pago facil /Rapipago</option>
+            </select>
+            </div>
+            <div class="form-group col-sm-3"
+            >
+            <label
+            class="form-col-form-label form"
+            for="monto"
+            >Monto <strong class="leyenda-req">*</strong></label
+          >
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-dollar text-success"></i></span>
+            </div>
+            <input
+            (keyup)="maskedMoneyValue($event)"
+            class="form-control text-center"
+            [ngClass]="isInvalid('monto')?'form-control is-invalid':'form-control'"
+                [ngClass]="(!isInvalid('monto'))&& isTouched('monto')?'form-control is-valid':'form-control'"
+                id="monto"
+                formControlName="monto"
+              />
+          </div>
+            </div>
+            <div class="form-group col-sm-3"
+            >
+              <label class="form-col-form-label form" for="fecha_pago" 
+                >Fecha de pago <strong class="leyenda-req">*</strong></label
+              >
+              <div class="input-group">
+                <input
+                type="text"
+                (keyup)="dateMask($event)"
+                class="form-control text-center"
+                bsDatepicker
+                placeholder="dd/mm/aaaa"
+                #dp="bsDatepicker"
+                formControlName="fecha_pago"
+                [ngClass]="isInvalid('fecha_pago')?'form-control is-invalid':'form-control'"
+                [ngClass]="(!isInvalid('fecha_pago'))&& isTouched('fecha_pago')?'form-control is-valid':'form-control'"
+                [bsConfig]="{
+                  isAnimated: true,
+                  dateInputFormat: 'DD/MM/YYYY',
+                  containerClass: 'theme-dark-blue'
+                }"/>
+                <div class="input-group-append">
+                  <button class="btn btn-primary" type="button" (click)="nowDate()">HOY</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class=" form-group col-sm-4">
+              <label class="form-col-form-label form" for="aceptado"
+                >Aceptado </label
+              >
+
+              <select
+                class="form-control"
+                id="aceptado"
+                formControlName="aceptado"
+              >
+                <option [value]="1" default>Aceptado</option>
+                <option [value]="0">Rechazado/En espera</option>
+              </select>
+              <div class=" form-group col-sm-6">
+                  <label class="form-col-form-label form custom-file-upload pt-5" for="comprobante">
+                    <i class="fa fa-cloud-upload text-primary"></i>Comprobante</label>
+                    <img
+                      *ngIf="comprobanteURL"
+                      [src]="comprobanteURL"
+                      appOnClick
+                      (clicked)="focusing = $event"                      
+                      [ngClass]="focusing? 'show-image':'image'" 
+                      height="120" width="120"/>
+                  <input 
+                    type="file"
+                    accept="image/*"
+                    class="form-control"
+                    id="comprobante"
+                   (change)="upload($event)"
+                    />
+                    <div class="overlay" *ngIf="focusing"></div>
+                      <button *ngIf="comprobanteURL" type="button" class="btn btn-danger  ml-5 mt-2 " (click)="cleanBlob()"><i class="fa fa-trash "></i></button>
+                  </div>
+            </div>
+          </div>
+        </form>
+        <hr>
+        Los campos marcados con   <strong class="leyenda-req">*</strong>   son obligatorios
+      </div>     
+      <div class="card-footer">
+        <div class="justify-content-between d-flex w-100-sm">
+          <button class="btn  btn-danger active" style="width:25%" [routerLink]="['/pagoes/listar']"><strong>CANCELAR</strong></button>
+          <button [ngClass]="isEdit?'btn  btn-success active':'btn  btn-primary active'" style="width:25%" (click)="submit()" [disabled]="pagoForm.invalid">
+            <strong>{{isEdit?'GUARDAR':'CREAR'}}</strong>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

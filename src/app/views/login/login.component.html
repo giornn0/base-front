@@ -1,0 +1,94 @@
+<div class="app-body">
+  <main class="main d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5 mx-auto">
+          <div class="card-group">
+            <div class="card p-4">
+              <div class="card-body">
+                <form [formGroup]="logForm" id="ngLogForm" (ngSubmit)="logIn()">
+                  <h1>Iniciar sesion</h1>
+                  <p class="text-muted">Ingrese a su cuenta</p>
+                  <div class="form-group row" >
+                    <div class="input-group-prepend" style="height:40px">
+                      <span class="input-group-text"
+                        ><i class="icon-user"></i
+                      ></span>
+                    </div>
+                    <div class="col-md-9">
+                      <input
+                        type="text"
+                        class="form-control"                        
+                        [ngClass]="isInvalid('email')?'form-control is-invalid':'form-control'"
+                        [ngClass]="(!isInvalid('email'))&& isTouched('email')?'form-control is-valid':'form-control'"
+                        formControlName="email"
+                        placeholder="Email"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="input-group-prepend" style="height:40px">
+                      <span class="input-group-text"
+                        ><i class="icon-lock"></i
+                          ></span>
+                        </div>
+                        <div class="col-md-9">
+                          <input
+                          type="password"                          
+                          class="form-control"
+                          [ngClass]="isInvalid('password')?'form-control is-invalid':'form-control'"
+                          [ngClass]="(!isInvalid('password'))&& isTouched('password')?'form-control is-valid':'form-control'"
+                          formControlName="password"
+                          placeholder="Contraseña"
+                          />
+                    </div>
+                  </div>
+
+                  <div class="row justify-content-center">
+                    <div class="col-6 ">
+                      <button
+                        type="submit"
+                        class="btn btn-primary px-4"
+                        form="ngLogForm"
+                      >
+                        Iniciar sesion
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>            
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<alert *ngIf="alert.exists" [type]="alert.type" class="alert"  >
+  <h4 class="alert-heading"><strong>{{alert.title}}</strong><i  class="fa fa-window-close pull-right float-right" style="color:red" (click)="removeAlert()" ></i></h4> 
+  <p *ngIf="alert.message.length" class="mb-0">{{alert.message}}</p>
+ </alert>
+ 
+ <div class="overlay" *ngIf="loading">
+  <div class="row justify-content-center">
+ <div class="center">
+     <div class="col-12">
+       <img src="assets/img/brand/firstSpinner.svg">
+     </div>     
+     <div class="col-12">
+     <label>
+       <h3>
+         DHARMA version: {{version}} - {{fecha}}
+       </h3>
+     </label>
+     </div>
+     <div class="col-12">
+<label>
+ <h4>
+  Desarrollado por  <strong style="color:rgb(223, 87, 87)">giornn0</strong>
+ </h4>
+</label>
+   </div>
+   </div>
+ </div>
+</div>

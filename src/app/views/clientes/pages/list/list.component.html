@@ -1,0 +1,252 @@
+<div class="row wrapp-all animated fadeIn" >
+  <div class="col-sm-12 pb-2">
+    <div class="row" style="height: 7vh">
+      <div class="col-xl-6">
+        <label class="form-title">Mis Clientes ({{itemsPerPage}} de {{ totalItems }})</label>
+      </div>
+      <div class="col-xl-6 pb-2">
+        <div class="row">
+          <div class="col-7">
+            <div class="input-group append">
+              <input
+                class="form-control"
+                placeholder="Busqueda.."
+                id="busqueda"
+                #busqueda
+                (keyup)="searchByEvent($event, busqueda.value)"
+              />
+              <button
+                class="input-group-btn btn btn-light"
+                type="submit"
+                (click)="search(busqueda.value)"
+              >
+                <i class="fa fa-search"></i>
+              </button>
+              <button
+                *ngIf="busqueda.value"
+                class="input-group-btn btn btn-danger"
+                type=""
+                (click)="cleanSearch()"
+              >
+                <i class="fa fa-window-close bg-danger"></i>
+              </button>
+            </div>
+          </div>
+          <div class="col-5">
+            <div class="row">
+              <div class="col-8">
+                <button
+                  class="btn btn-block btn-primary pl-1 pr-1"
+                  routerLink="/clientes/crear"
+                >
+                  <i class="fa fa-plus"></i>  <strong>CREAR</strong>
+                </button>
+              </div>
+              <div class="col-4">
+                <div class="btn-group btn-block" dropdown placement="bottom left">
+                  <button
+                    id="button-basic"
+                    type="button"
+                    dropdownToggle
+                    class="btn btn-block btn-secondary "
+                  >
+                    <i class="icon-menu"></i>
+                  </button>
+                  <ul
+                    id="dropdown-basic"
+                    *dropdownMenu
+                    class="dropdown-menu dropdown-menu-right"
+                    role="menu"
+                    aria-labelledby="button-basic"
+                  >                    
+        <div class="dropdown-header text-center"><strong>Exportar a</strong></div>
+        <div class="divider"></div>
+        <button class="dropdown-item" (click)="logOut()"><i class="fa fa-file-pdf-o"></i>PDF</button>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12" *ngIf="clientes&&clientes.length">
+        <accordion [isAnimated]="true">
+          <accordion-group
+            class="mb-20n list"
+            *ngFor="let obj of clientes; let i = index"
+            [isOpen]="isActive(i)"
+            [isDisabled]="true"
+
+          (mouseenter)="hoving(i)"
+          (mouseleave)="notHoving()"
+            >
+          <div class="row  " accordion-heading 
+            >
+              <div class="col-12 ">
+              <div class="row justify-content-between
+              align-items-center">
+                <div class="col-sm-10 "
+                (click)="openCloseAccordion(i)">
+                      <div
+                        class="
+                        btn btn-link btn-block
+                        justify-content-between
+                        align-items-center
+                        d-flex
+                        w-100
+                        shadow-none
+                        p-0
+                        "
+                        style="text-decoration: none;"
+                        >
+                        <div class="pull-left float-left font-weight-bold em-11 text-dark">
+                          <i class="fa fa-address-book-o text-primary scaling mr-4">
+                          </i> 
+                              
+                              Cliente #{{
+                                  (obj.cliente_id | number: "6.0").split(",").join("")
+                                }} -
+                               <i class="fa fa-user text-names mr-1"></i> {{ obj.apellido}}, {{obj.nombre}}
+                                - {{ obj.created_at.slice(0,10).split('-').reverse().join('/') }}
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-sm-2 ">
+                    <div class="row justify-content-between
+                    align-items-center">
+                    <div class="col-8">
+                      <app-buttons-actions
+                      class="animated fadeIn"
+                      *ngIf="accordionHoving-1 == i "
+                          [nombre]="obj.b01nomape "
+                          seccion="clientes"
+                          [wantShow]="false"
+                          (deleting)="onModalClose = $event"
+                          [id]="obj.cliente_id"
+                          (confirmDelete)="delete($event)"
+                          ></app-buttons-actions>
+                    </div>
+                  <div class="col-4">
+                    <i 
+                    [ngClass]="isActive(i) && !gettingData(i)?'fa fa-chevron-down light  ':'fa fa-chevron-right light  '" 
+                    type="button"
+                    (click)="openCloseAccordion(i)"></i>
+                  </div>
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div>
+            <div class="row justify-content-between">
+              <div class="col-sm-12">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="d-inline-block mr-5 mb-3">
+                      <span><i class="fa fa-address-card mr-1"></i>  <i>Nombre</i></span><br />
+                      <h4 class="mb-0 text-names font-weight-bold">{{ obj.nombre }}</h4>
+                    </div>
+                    <div class="d-inline-block mr-5 mb-3">
+                      <span><i class="fa fa-address-card mr-1"></i>  <i>Apellido</i></span><br />
+                      <h4 class="mb-0 text-names font-weight-bold">{{ obj.apellido }}</h4>
+                    </div>
+                    <div class="d-inline-block mr-5 mb-3">
+                      <span><i class="fa fa-address-card mr-1"></i>  <i>N° documento</i></span><br />
+                      <h4 class="mb-0 text-names font-weight-bold">{{ obj.numero_documento }}</h4>
+                    </div>
+                    <div class="d-inline-block mr-5 mb-3">
+                      <span><i class="fa fa-calendar mr-1"></i>  <i>Fecha nacimiento</i></span><br />
+                      <h4 class="mb-0 text-numbers font-weight-bold">{{ obj.fecha_nacimiento.slice(0,10).split('-').reverse().join('/') }}</h4>
+                    </div>
+                    <div class="d-inline-block mr-5 mb-3">
+                      <span><i class="fa fa-phone mr-1"></i>  <i>Teléfono</i></span><br />
+                      <h4 class="mb-0 text-numbers font-weight-bold">{{ obj.phone ? obj.phone:' - '}}</h4>
+                    </div>
+                    <div class="d-inline-block mr-5 mb-3">
+                      <span><i class="fa fa-phone mr-1"></i>  <i>Célular</i></span><br />
+                      <h4 class="mb-0 text-numbers font-weight-bold">{{ obj.cellphone ?obj.cellphone:' - '}}</h4>
+                    </div>
+                    <div class="d-inline-block mr-5 mb-3">
+                      <span><i class="fa fa-map-marker mr-1"></i>  <i>Domicilio</i></span><br />
+                      <h4 class="mb-0 text-primary font-weight-bold">{{ obj.domicilio_dni }}</h4>
+                    </div>
+                    <div class="d-inline-block mr-5 mb-3">
+                      <span><i class="fa fa-map-marker mr-1"></i>  <i>Localidad</i></span><br />
+                      <h4 class="mb-0 text-primary font-weight-bold">{{ obj.localidad }}</h4>
+                    </div>
+                    <div class="d-inline-block mr-5 mb-3">
+                      <span><i class="fa fa-map-marker mr-1"></i>  <i>Código Postal</i></span><br />
+                      <h4 class="mb-0 text-primary font-weight-bold">{{ obj.codigo_postal? obj.codigo_postal :' - ' }}</h4>
+                    </div>
+                    <div class="d-inline-block mr-5 mb-3">
+                      <span><i class="fa fa-id-card-o mr-1"></i>  <i>Profesión</i></span><br />
+                      <h4 class="mb-0 text-primary font-weight-bold">{{ obj.profesion }}</h4>
+                    </div>
+                    <div class="d-inline-block mr-5 mb-3">
+                      <span><i class="fa fa-envelope mr-1"></i>  <i>Email</i></span><br />
+                      <h4 class="mb-0 text-primary font-weight-bold">{{ obj.email }}</h4>
+                    </div>
+                    <br />
+                    <hr />                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </accordion-group>
+        </accordion>
+      </div>
+      <div class="col-12">
+        <div class="row justify-content-between">
+          <div class="col-xs-1 marg-left">
+            <div class="input-group">
+              <div
+                class="input-group-prepend marg-left"
+                style="padding-top: 0.5vh"
+              >
+                Ver
+              </div>
+              <select
+                #pager
+                id="pager"
+                (change)="changeTotalItems(pager.value)"
+                class="form-control marg-left"
+                style="height: 67%"
+              >
+              <option [value]="itemsPerPage" default>{{itemsPerPage}}</option>
+              <option *ngFor="let take of takeOptions" [value]="take">{{take}}</option>
+              </select>
+              <div
+                class="input-group-append marg-left"
+                style="padding-top: 0.5vh"
+              >
+                Elementos
+              </div>
+            </div>
+          </div>
+          <div class="row marg-right">
+            <div class="col-12">
+              <div class="d-inline-block mr-3">
+                Pagina {{ currentPage }} de {{ totalPages }}
+              </div>
+              <div class="d-inline-block">
+                <pagination
+                  class="pagination-md"
+                  [maxSize]="5"
+                  [(ngModel)]="currentPage"
+                  [totalItems]="totalItems"
+                  previousText="&lsaquo;"
+                  nextText="&rsaquo;"
+                  firstText="&laquo;"
+                  lastText="&raquo;"
+                  [boundaryLinks]="true"
+                  (pageChanged)="pageChange($event)"
+                  [itemsPerPage]="itemsPerPage"
+                >
+                </pagination>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
