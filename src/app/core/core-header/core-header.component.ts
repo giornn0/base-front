@@ -15,10 +15,7 @@ export class CoreHeaderComponent implements OnInit {
 
   logOut(){
     this.logService.logout().subscribe(res=>{
-      localStorage.clear()
-      this.router.navigate(['login'])
-    },error=>{
-      console.log(error)
+      console.log(res)
       localStorage.clear()
       this.router.navigate(['login'])
     })

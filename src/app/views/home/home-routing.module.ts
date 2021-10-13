@@ -8,7 +8,7 @@ const routes: Routes = [
     path: '',
     component: HomeComponent,
     data: {
-      title: 'Home'
+      title: 'Titulo puesto desde el route'
     }
   }
 ];
@@ -17,4 +17,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class DashboardRoutingModule {}
+export class HomeRoutingModule {}

@@ -3,7 +3,35 @@
 .strong-font{
     font-weight:500;
 }
- body{
+  .icon-home{
+    font-weight:bold;
+    transform: scale(1.5);
+  }
+  .fa-address-book-o{
+    font-weight:300;
+    transform: scale(1.5);
+  }
+  .fa-user-md{
+    font-weight:300;
+    transform: scale(1.5);
+  }
+  .fa-institution{
+    font-weight:300;
+    transform: scale(1.5);
+  }
+  .fa-paint-brush{
+    font-weight:300;
+    transform: scale(1.5);
+  }
+  .fa-database{
+    font-weight:300;
+    transform: scale(1.0);
+  }
+  .fa-user{
+    font-weight:300;
+    transform: scale(1.5);
+  }
+  body{
     font-family: "Nunito Sans", sans-serif, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   }
 
@@ -15,29 +43,27 @@
 //     transform: scale(1.005);
 //  box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
 // }
-
-.show-image{
-  color: #e6b0b0; 
-  border-radius: 5%;
--webkit-transition: all .3s ease-in;
--moz-transition: all .3s ease-in;
--ms-transition: all .3s ease-in;
--o-transition: all .3s ease-in;
-transition: all .3s ease-in;
-opacity: 1;
-transform: scale(3.85);
-position :fixed;
-margin-left: auto;
-margin-right: auto;
-left: 7.5%;
-top: 40%;
-right: 0;
-text-align: center;
-z-index: 10001 !important;
--ms-transform: scale(1.15); /* IE 9 */
--webkit-transform: scale(3.85);
-}
 .btn:hover{
   transform: scale(1.005);
   box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+}
+
+.dif-hover{
+  display: block;
+  width: 100%;
+  padding: 0.25rem 1.5rem;
+  clear: both;
+  font-weight: 400;
+  text-align: inherit;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0;
+  color: gray;
+  text-align:start;
+  text-justify: center;
+}
+
+.dif-hover:hover{
+  color: azure ;
+  background-color: #2255a4;
 }

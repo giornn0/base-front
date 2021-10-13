@@ -1,8 +1,8 @@
-import { onClickDirective } from './on-click.directive';
+import { OnMouseHoverDirective } from './on-mouse-hover.directive';
 
-describe('onClickDirective', () => {
+describe('OnMouseHoverDirective', () => {
   it('should create an instance', () => {
-    // const directive = new onClickDirective();
-    // expect(directive).toBeTruthy();
+    const directive = new OnMouseHoverDirective();
+    expect(directive).toBeTruthy();
   });
 });

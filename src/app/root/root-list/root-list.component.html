@@ -1,0 +1,139 @@
+
+      <div class="col-sm-12" style="padding-bottom: 2vh" >
+        <accordion [isAnimated]="true" >
+        <accordion-group  class="mb-20n list" *ngFor="let obj of listado; let i = index" [isOpen]="isActive(i)" [isDisabled]="true" 
+        
+        (mouseenter)="hoving(i)"
+        (mouseleave)="notHoving()"
+        >
+          <div class="row  " accordion-heading 
+          >
+            <div class="col-12 ">
+            <div class="row justify-content-between
+            align-items-center">
+              <div class="col-sm-10 "
+              (click)="openCloseAccordion(i)">
+                    <button
+                      class="
+                      btn btn-link btn-block
+                      justify-content-between
+                      align-items-center
+                      d-flex
+                      w-100
+                      shadow-none
+                      p-0
+                      "
+                      style="text-decoration: none;"
+                      type="button"
+                      >
+                      <div class="pull-left float-left font-weight-bold em-11 text-dark">
+                        <i [ngClass]="template.headIcon"></i>
+                        {{obj.header}}</div>
+                    </button>
+                </div>
+                <div class="col-sm-2 ">
+                  <div class="row justify-content-between
+                  align-items-center">
+                  <div class="col-9 ">
+                    <app-buttons-actions
+                    class="animated fadeIn"
+                    *ngIf="accordionHoving-1 == i"
+                        [nombre]="obj.header"
+                        [seccion]="section"
+                        [wantShow]="mainShow"
+                        [wantEdit]="mainEdit"
+                        [wantDelete]="mainDelete"
+                        [id]="obj.id"
+                        (deleting)="onModalClose = $event"
+                        (confirmDelete)="delete($event,i)"
+                        ></app-buttons-actions>
+                  </div>
+                <div class="col-3">
+                  <i 
+                  [ngClass]="isActive(i) && !gettingData(i)?'fa fa-chevron-down light  ':'fa fa-chevron-right light  '" 
+                  type="button"
+                  (click)="openCloseAccordion(i)"></i>
+                </div>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+          <div class="row justify-content-between" (mouseenter)="hoving(i)"
+          >
+            <div class="col-sm-12">
+              <div class="row">
+                <div class="col-12">
+                  <div *ngFor="let property of obj.properties"  class="d-inline-block mr-5 mb-3">
+                    <span>
+                      <i [ngClass]="property.icon"></i>  <i>{{property.label}}</i></span><br />
+                    <h4 [ngClass]="property.font">{{ property.data }}</h4>
+                  </div>
+                  <br />
+                  <hr />
+                  <div class="row" *ngIf="template.relations.length">
+                    <div class="col-12" *ngFor="let relation of template.relations">
+                      <div class="row" >
+                        <div class="col-6">
+                          <div class="row">
+                            <div class="col-12">
+                              <strong>
+                                <i class="fa fa-list-ul bg-secondary"></i> {{relation.title}}: 
+                                <label *ngIf=" listado[i].charged && !listado[i][relation.section].length">No hay {{relation.section}}</label>
+                                <label *ngIf="listado[i].charged && listado[i][relation.section] ==='error'" class="text-danger"><i class="fa fa-close"></i>Error buscando los {{relation.section}}</label>
+                                <img *ngIf="gettingData(i)" src="assets/img/brand/inPageSpinner.svg" height="45" width="45">
+                              </strong>                      
+                            </div>
+                          </div>
+                          </div>
+                          <div class="col-6" style="text-align:end" *ngIf="(gettingData(i) || listado[i].charged) && relation.plusText">
+                            <button  class="btn-sm btn-primary " [routerLink]="'/'+relation.section+'/crear'"  [queryParams]="queryPlus[i]"><i class="fa fa-plus mr-3"></i><strong>{{relation.plusText}}</strong></button>
+                          </div>
+                        </div>
+                      <div class="row">
+                        <div class="col-12 table-responsive" *ngIf="listado[i][relation.section] && listado[i][relation.section].length">
+                          <table class="table-sm table-hover table-stripped">
+                            <thead>
+                              <tr >
+                                <th scope="col" *ngFor="let headers of relation.tableHeaders" >
+                                  <span><i>{{headers}}</i></span></th>
+                                <th scope="col" style="text-align:center">Acciones</th>
+                              </tr>
+                            </thead>
+                            <tbody >
+                              <tr *ngFor="let rel of obj[relation.section]; let j = index">
+                                <td *ngFor="let access of relation.properties">
+                                  <h5 [ngClass]="access.font" *ngIf="!access.type" >
+                                    {{rel[access.access]}}
+                                  </h5>
+                                  <h5 [ngClass]="access.font" *ngIf="access.type==='date'">
+                                    {{rel[access.access] ? formatDate(rel[access.access]):'--/--/----'}}
+                                  </h5>
+                                  <h5 [ngClass]="rel[access.access]? access.font +' text-success': access.font+' text-danger'" *ngIf="access.type==='boolean'">
+                                    {{rel[access.access]? access.textTrue: access.textFalse}}
+                                  </h5>
+                                </td>
+                                <td style="text-align:center">
+                                  <app-buttons-actions
+                                      [wantShow]="false"
+                                      [id]="rel.id"
+                                      [seccion]="relation.section"
+                                      [nombre]="rel.titulo"
+                                      (confirmDelete)="deleteRelation($event, i, j,relation.section)"
+                                      >
+                                      </app-buttons-actions>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </accordion-group>
+      </accordion>
+    </div>

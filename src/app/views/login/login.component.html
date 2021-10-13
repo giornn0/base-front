@@ -18,10 +18,10 @@
                     <div class="col-md-9">
                       <input
                         type="text"
-                        class="form-control"                        
+                        
+                        class="form-control"
                         [ngClass]="isInvalid('email')?'form-control is-invalid':'form-control'"
-                        [ngClass]="(!isInvalid('email'))&& isTouched('email')?'form-control is-valid':'form-control'"
-                        formControlName="email"
+                        [ngClass]="(!isInvalid('email'))&& isTouched('email')?'form-control is-valid':'form-control'"formControlName="email"
                         placeholder="Email"
                       />
                     </div>
@@ -34,7 +34,7 @@
                         </div>
                         <div class="col-md-9">
                           <input
-                          type="password"                          
+                          type="password"
                           class="form-control"
                           [ngClass]="isInvalid('password')?'form-control is-invalid':'form-control'"
                           [ngClass]="(!isInvalid('password'))&& isTouched('password')?'form-control is-valid':'form-control'"
@@ -73,19 +73,20 @@
   <div class="row justify-content-center">
  <div class="center">
      <div class="col-12">
-       <img src="assets/img/brand/firstSpinner.svg">
+       <label><h1>Ingresando</h1></label>
+       <img src="assets/img/brand/ellipsis-loading.svg">
      </div>     
      <div class="col-12">
      <label>
        <h3>
-         DHARMA version: {{version}} - {{fecha}}
+         ASOR version: {{version}} - {{fecha}}
        </h3>
      </label>
      </div>
      <div class="col-12">
 <label>
  <h4>
-  Desarrollado por  <strong style="color:rgb(223, 87, 87)">giornn0</strong>
+   Desarrollado por  <strong style="color:rgb(0, 0, 0)">Inter-Neg</strong>
  </h4>
 </label>
    </div>

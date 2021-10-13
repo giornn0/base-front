@@ -1,0 +1,100 @@
+
+<div class="row wrapp-all">
+    <div class="col-sm-12">
+      <div class="form-title">
+        <strong>{{ title }}</strong>
+      </div>
+      <div class="card" style="margin-top: 2vh">
+        <div class="card-body">
+          <form [formGroup]="form" *ngIf="template && template.length">
+              <div *ngFor="let row of template">
+                  <div class="row" *ngIf="row && row.length">
+                              <div *ngFor="let col of row" [ngClass]="col.class">
+                                    <label class="form-col-form-label" [for]="col.name">{{col.label}} <strong *ngIf="col.required" class="leyenda-req-2">*</strong> </label>
+                                    <input
+                                    *ngIf="col.type ==='input'"
+                                    class="form-control"
+                                    [ngClass]="
+                                        isInvalid(col.name) ? 'form-control is-invalid' : 'form-control'
+                                    "
+                                    [ngClass]="
+                                        !isInvalid(col.name) && isTouched(col.name)
+                                        ? 'form-control is-valid'
+                                        : 'form-control'
+                                    "
+                                    [formControlName]="col.name"
+                                    [id]="col.name"
+                                    [type]="col.typeinput"
+                                    />
+                                    <select
+                                    *ngIf="col.type ==='select'"
+                                    class="form-control"
+                                    [ngClass]="
+                                        isInvalid(col.name) ? 'form-control is-invalid' : 'form-control'
+                                    "
+                                    [ngClass]="
+                                        !isInvalid(col.name) && isTouched(col.name)
+                                        ? 'form-control is-valid'
+                                        : 'form-control'
+                                    "
+                                    [formControlName]="col.name"
+                                    [id]="col.name">
+                                    <option [value]="null" >Seleccione ..</option>
+                                    <option *ngFor="let option of col.options" [value]="option.value" >{{option.description}}</option>
+                                </select>
+                                <input
+                                *ngIf="col.type ==='date'"
+                                (keyup)="dateMask($event)"
+                                class="form-control"
+                                [ngClass]="
+                                    isInvalid(col.name) ? 'form-control is-invalid' : 'form-control'
+                                "
+                                [ngClass]="
+                                    !isInvalid(col.name) && isTouched(col.name)
+                                    ? 'form-control is-valid'
+                                    : 'form-control'
+                                "
+                                bsDatepicker
+                                placeholder="dd/mm/aaaa"
+                                #dp="bsDatepicker"
+                                [formControlName]="col.name"
+                                [bsConfig]="{
+                                    isAnimated: true,
+                                    dateInputFormat: 'DD/MM/YYYY',
+                                    containerClass: 'theme-dark-blue'
+                                }"
+                                [type]="col.typeinput"
+                                />
+                                </div>
+                          </div>
+              </div>
+          </form>
+          <hr />
+          Los campos marcados con <strong class="leyenda-req-2">*</strong> son
+          obligatorios
+        </div>
+        <div class="card-footer">
+          <div class="justify-content-between d-flex w-100-sm">
+            <button
+              class="btn btn-danger active"
+              style="width: 25%"
+              [routerLink]="['/'+section+'/listar']"
+            >
+              <strong>CANCELAR</strong>
+            </button>
+            <button
+              [ngClass]="
+                forEdit ? 'btn  btn-success active' : 'btn  btn-primary active'
+              "
+              style="width: 25%"
+              (click)="submit()"
+              [disabled]="form.invalid"
+            >
+              <strong>{{ forEdit ? "GUARDAR" : "CREAR" }}</strong>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

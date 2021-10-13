@@ -1,67 +1,60 @@
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { Validators } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
+import { RootFormComponent } from '../../root/root-form/root-form.component';
 
 @Component({
   templateUrl: "home.component.html",
   styleUrls: ["../../app.component.css"]
 })
 export class HomeComponent implements OnInit {
-  constructor(private fBuilder: FormBuilder) {}
+  constructor(private activatedRoute: ActivatedRoute) {}
 
-  test:string[]=['asasdas','qwegqwe','g4q3','12125315']
+  @ViewChild(RootFormComponent)form: RootFormComponent 
 
-  condIvas: string[] = ['asdas','asdwaw','asdwasd']
+  title = ''
 
-  obrasSociales: {}[]= [
-    {
-      nombre:'primera',
-      id:1
-    },
-    {
-      nombre:'segunda',
-      id:2
-    },
-    {
-      nombre:'tercera',
-      id:3
-    },
-    {
-      nombre:'quitna',
-      id:4
-    },
-    {
-      nombre:'cuarta',
-      id:5
-    },
-  ]
+  campsTemplate =  [
+    [
+        {name:'nombre',class:'form-group col-sm-3',type:'select',options:[{value:1,description:'Activo'},{value:0,description:'Inactivo'}],label:'Nombre',required:true,},
+        {name:'apellido',class:'form-group col-sm-3',type:'date',options:[],label:'Nombre',required:false,typeinput:'text'},
+        {name:'username',class:'form-group col-sm-4',type:'input',options:[],label:'Nombre',required:true,typeinput:'text'}
+    ],
+    [
+      {name:'pruebita',class:'form-group col-sm-3',type:'select',options:[{value:1,description:'Activo'},{value:0,description:'Inactivo'}],label:'Nombre',required:true,},
+        {name:'segunda',class:'form-group col-sm-3',type:'date',options:[],label:'Segundo item segunda fila',required:true,typeinput:'text'},
+        {name:'fila',class:'form-group col-sm-4',type:'input',options:[],label:'Nombre',required:false,typeinput:'text'}
+    ],
+    [],
+]
 
-  autorizacionForm: FormGroup = this.fBuilder.group({
-    codigo: [""],
-    titulo:[""],
-    num_tabla_asociada:[""],
-    nombre:[""],
-    obra_social:[0,[Validators.required,Validators.min(1)]],
-    estado:[""],
-  });
-  prestacionForm:FormGroup = this.fBuilder.group({})
+campsValidation = {
+  nombre:[{value:null,disabled:true},[Validators.required,Validators.email]],
+  apellido:[{value:null,disabled:true},[Validators.required,Validators.email]],
+  username:[{value:null,disabled:true},[Validators.required,Validators.email]],
+  pruebita:[{value:null,disabled:true},[Validators.required,Validators.email]],
+  segunda:[{value:null,disabled:true},[Validators.required,Validators.email]],
+  fila:[{value:null,disabled:false},[Validators.required,Validators.email]],
+}
 
-  ngOnInit() {
+campsForm = []
+
+  ngOnInit(){
+    this.campsTemplate.forEach(row=> row.forEach(camp=> this.campsForm.push(camp.name)))
+    this.activatedRoute.data.subscribe(data=>{
+      this.title = data.title
+    })
   }
 
-  isTouched(field: string): boolean {
-    return !!(
-      this.autorizacionForm.controls[field].touched
-    );
+  ngAfterViewInit(): void {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
+    this.form.form.controls['fila'].valueChanges.subscribe(values=>{
+      if(this.form.form.controls['fila'].valid) this.form.form.controls['username'].enable()
+      else this.form.form.controls['username'].disable()
+    })
+    this.form.form.valueChanges.subscribe(form=>{
+      console.log(this.form.form.valid)
+    })
   }
-  isInvalid(field: string): boolean {
-    return !!(
-      this.autorizacionForm.controls[field].touched &&
-      this.autorizacionForm.controls[field].invalid
-    );
-  }
-
-  submit(){
-
-  }
-
 }

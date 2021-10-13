@@ -1,5 +1,47 @@
-<app-sidebar #appSidebar [fixed]="true" [display]="'lg'" [minimized]="sidebarMinimized" (minimizedChange)="toggleMinimize($event)">
-    <app-sidebar-nav [navItems]="navItems" [perfectScrollbar] [disabled]="appSidebar.minimized"></app-sidebar-nav>
+<app-sidebar style="z-index: 100;" #appSidebar [fixed]="true" [display]="'lg'" [minimized]="sidebarMinimized" (minimizedChange)="toggleMinimize($event)">
+  <div class="dif-hover "  ><i class="fa fa-database mr-1 pt-2"></i><label  class="pt-2"style="color:azure" (click)="primaryModal.show()">Importar tablas</label></div>
+    <app-sidebar-nav [navItems]="navItems" [perfectScrollbar] [disabled]="appSidebar.minimized">
+    </app-sidebar-nav>
     <app-sidebar-minimizer></app-sidebar-minimizer>
   </app-sidebar>
   
+<div bsModal #primaryModal="bs-modal" class="modal fade" tabindex="-1" role="form" aria-labelledby="myModalLabel" aria-hidden="true" >
+  <div class="modal-dialog modal-primary" role="form">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Importar tablas</h4>
+        <button type="button" class="close"  aria-label="Close" (click)="primaryModal.hide()" (click)="cleanImportador()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form [formGroup]="tablaForm">
+              <div class="row">
+                  <div class="form-group col-sm-12">
+                    <label class="form-col-form-label" for="tipo_tabla">Tipo de Tabla</label>
+                    <select class="" id="tipo_tabla" formControlName="tipo_tabla">
+                        <option [value]="null" default disabled>Seleccione ..</option>
+                      <option *ngFor="let tipos of options" [value]="tipos.value">{{tipos.description}}</option>
+                      </select>  
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="form-group col-sm-12">
+                      <button class="dropdown-item" ><label for="tablas"><i class="fa fa-database"></i>{{archivoName? archivoName :'ARCHIVO CSV'}}</label></button>
+                      <input 
+                      type="file"
+                      style="display:none"
+                      id="tablas"
+                      (change)="uploadTabla($event)"
+                      accept=".sql,.csv">
+                  </div>
+              </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="primaryModal.hide()" (click)="cleanImportador()">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="insertarTablas()" (click)=" primaryModal.hide()">Confirmar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

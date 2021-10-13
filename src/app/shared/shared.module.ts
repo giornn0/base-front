@@ -6,7 +6,11 @@ import { ButtonsActionsComponent } from './components/buttons-actions/buttons-ac
 
 import{ModalModule} from 'ngx-bootstrap/modal';
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
-import { onClickDirective } from './directives/on-click.directive';
+import { OnMouseHoverDirective } from './directives/on-mouse-hover.directive';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { SharedTakePaginatorComponent } from './components/shared-take-paginator/shared-take-paginator.component';
+import { SharedSearcherComponent } from './components/shared-searcher/shared-searcher.component';
+import { ClickOutsideDirective } from './directives/click-outside.directive';
 
 
 @NgModule({
@@ -14,14 +18,19 @@ import { onClickDirective } from './directives/on-click.directive';
     AutofocusDirective,
     ButtonsActionsComponent,
     ConfirmModalComponent,
-    onClickDirective
+    OnMouseHoverDirective,
+    SharedTakePaginatorComponent,
+    SharedSearcherComponent,
+    ClickOutsideDirective
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    ModalModule
+    ModalModule,
+    PaginationModule,
   ],
-  exports:[ButtonsActionsComponent,onClickDirective, ConfirmModalComponent,AutofocusDirective]
+  exports:[ButtonsActionsComponent, ConfirmModalComponent,OnMouseHoverDirective, SharedTakePaginatorComponent, SharedSearcherComponent,
+    ClickOutsideDirective]
 })
 export class SharedModule { }

@@ -18,6 +18,8 @@ import { TabsModule } from "ngx-bootstrap/tabs";
 import { ChartsModule } from "ng2-charts";
 import { CoreSidenavComponent } from "./core-sidenav/core-sidenav.component";
 import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ModalModule } from "ngx-bootstrap/modal";
 
 @NgModule({
   declarations: [
@@ -35,7 +37,10 @@ import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
     TabsModule.forRoot(),
     AppFooterModule,
     AppSidebarModule,
-    BsDropdownModule
+    BsDropdownModule,
+    ReactiveFormsModule,
+    FormsModule,
+    ModalModule,
   ],
   exports: [
     CoreHeaderComponent,

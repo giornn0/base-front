@@ -1,25 +1,24 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
-// Import Containers
 import { AuthGuard } from "./services/interceptors/auth/auth.guard";
-import { LogStatusResolver } from "./services/login/log-status.resolver";
 
 import { P404Component } from "./views/error/404.component";
 import { P500Component } from "./views/error/500.component";
 import { LoginComponent } from "./views/login/login.component";
 import { IndexComponent } from './containers/default/index.component';
+import { projectRoutes } from "./_routes";
 
 export const routes: Routes = [
-  {
-    path: "",
-    redirectTo: "home",
-    pathMatch: "full",
-  },
-  {
-    path: "home",
-    redirectTo: "contratos",
-  },
+  // {
+  //   path: "",
+  //   redirectTo: "solicitudes/listar",
+  //   pathMatch: "full",
+  // },
+  // {
+  //   path: "home",
+  //   redirectTo: "solicitudes/listar",
+  // },
   {
     path: "404",
     component: P404Component,
@@ -44,50 +43,17 @@ export const routes: Routes = [
   {
     path: "",
     component:IndexComponent,
-    canActivateChild: [AuthGuard],
+    // canActivateChild: [AuthGuard],
     data: {
       title: "Inicio",
     },
-    children: [
-      {
-        path: "clientes",
-        loadChildren: () =>
-          import("./views/clientes/clientes.module").then((m) => m.ClientesModule),
-      },
-      {
-        path: "pagos",
-        loadChildren: () =>
-          import("./views/pagos/pagos.module").then((m) => m.PagosModule),
-      },
-      {
-        path: "contratos",
-        loadChildren: () =>
-          import("./views/contratos/contratos.module").then((m) => m.ContratosModule),
-      },
-      {
-        path: "home",
-        loadChildren: () =>
-          import("./views/home/home.module").then(
-            (m) => m.HomeModule
-          ),
-      },
-      {
-        path:'usuarios',
-        loadChildren: ()=>
-        import("./views/usuarios/usuarios.module").then((m)=>m.UsuariosModule)
-      },
-      {
-        path:'vendedores',
-        loadChildren: () =>
-        import("./views/vendedores/vendedores.module").then(m=>m.VendedoresModule)
-      }      
-    ],
+    children: projectRoutes,
   },
   // { path: "**", component: P404Component },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: "legacy" ,scrollPositionRestoration: 'enabled'})],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

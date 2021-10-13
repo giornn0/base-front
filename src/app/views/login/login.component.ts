@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Alert, AlertsService } from "../../services/alerts/alerts.service";
 import { LoaderService } from "../../services/loader/loader.service";
-import { Subject } from "rxjs";
 
 @Component({
   selector: "app-dashboard",
@@ -20,17 +19,20 @@ export class LoginComponent implements OnInit {
     private fBuilder: FormBuilder
   ) {}
 
+  version = '1.2.3.4'
+  fecha = '15/08/1998'
 
   ngOnInit() {
-    this.alertsService.Alert.subscribe(res=>{this.alert = res})
-    this.loadService.isLoading.subscribe(res=>this.loading = res)
+    this.alertsService.getAlert().subscribe((res) => {
+      this.alert = res;
+    });
+    this.loadService
+      .getLoad()
+      .subscribe((isLoading) => (this.loading = isLoading));
   }
 
-  fecha:string
-  version:string
-
   alert: Alert = {} as Alert;
-  loading:boolean ;
+  loading = false;
 
   removeAlert() {
     this.alertsService.removeAlert();
@@ -61,13 +63,8 @@ export class LoginComponent implements OnInit {
     if (this.logForm.valid)
       this.logService.login(this.logForm.value).subscribe(
         (res:any) => {
-          localStorage.setItem("token", res.data.token);
-          localStorage.setItem("_token", res.data.token);
-          localStorage.setItem("version", res.data.version);
-          localStorage.setItem("fecha", res.data.fecha);
-          this.fecha = localStorage.getItem('fecha')
-          this.version = localStorage.getItem('version')
-          console.log(res)
+          localStorage.setItem("token", res.ATO);
+          localStorage.setItem("_token", res.RTO);
           this.router.navigate(["home"]);
         },
         (error) => {

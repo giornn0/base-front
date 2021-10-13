@@ -1,0 +1,79 @@
+<div #topScrollAnchor></div>
+<div class="row wrapp-all animated fadeIn">
+  <div class="col-sm-12 pb-2">
+    <div class="row " style="height: 7vh">
+      <div class="col-xl-6">
+        <label class="form-title">Mis Obras Sociales ({{itemsPerPage}} de {{ totalItems }})</label>
+      </div>
+      <div class="col-xl-6  pb-2">
+        <div class="row">
+          <div class="col-7">
+            <app-shared-searcher
+              (valueSearch)="search($event)"
+            >
+            </app-shared-searcher>
+          </div>
+          <div class="col-5">
+            <div class="row">
+              <div class="col-8">
+                <button
+                  class="btn btn-block btn-primary pl-1 pr-1"
+                  routerLink="/obrasSociales/crear"
+                >
+                  <i class="fa fa-plus"></i><strong>  CREAR</strong>
+                </button>
+              </div>
+              <div class="col-4">
+                <button class="btn btn-block btn-secondary">
+                  <i class="icon-menu"></i>
+                </button>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12" style="padding-bottom: 2vh" >
+              <app-root-list
+          [template]="templ"
+          [listado]="listForTemplate"
+          [queryPlus]="queryPlusSet"
+          section="obrasSociales"
+      >
+      </app-root-list>
+      </div>
+      <div class="col-12">
+        <div class="row justify-content-between">
+          <div class="col-xs-1">
+            <app-shared-take-paginator
+            [i_perPage]="itemsPerPage"
+            (c_TotalItems)="changeTotalItems($event)"
+            >
+            </app-shared-take-paginator>
+          </div>
+          <div class="row  marg-right">
+            <div class="col-12">
+              <div class="d-inline-block mr-3">
+                Pagina {{currentPage}} de {{totalPages}}
+              </div>
+              <div class="d-inline-block">
+                <pagination
+                  class="pagination-md "
+                  [maxSize]="5"
+                  [(ngModel)]="currentPage"
+                  [totalItems]="totalItems"
+                  previousText="&lsaquo;"
+                  nextText="&rsaquo;"
+                  firstText="&laquo;"
+                  lastText="&raquo;"
+                  [boundaryLinks]="true"
+                  (pageChanged)="pageChange($event)"
+                  [itemsPerPage]="itemsPerPage"
+                >
+              </pagination>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

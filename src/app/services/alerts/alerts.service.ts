@@ -14,7 +14,7 @@ export interface Alert {
 export class AlertsService {
   constructor() {}
 
-  alert: BehaviorSubject<Alert> = new BehaviorSubject({exists:false,type:'',message:'',title:''});
+  alert: BehaviorSubject<Alert> = new BehaviorSubject({} as Alert);
 
   addAlert(type: string, title:string ,message='' ) {
     this.alert.next({
@@ -35,7 +35,7 @@ export class AlertsService {
     })
   }
 
-  get Alert(): Observable<Alert> {
+  getAlert(): Observable<Alert> {
     return this.alert.asObservable();
   }
 }

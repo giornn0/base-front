@@ -4,7 +4,7 @@ import { LocationStrategy, HashLocationStrategy } from "@angular/common";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
-import { IconModule, IconSetModule } from "@coreui/icons-angular";
+import { IconModule} from "@coreui/icons-angular";
 
 import { AppComponent } from "./app.component";
 
@@ -32,8 +32,6 @@ import { BsDatepickerModule, BsLocaleService } from "ngx-bootstrap/datepicker";
 
 import "../app/config/ngx-bootstrap.config";
 import { LoadingInterceptor } from "./services/interceptors/loading/loading.interceptor";
-import { SharedModule } from "./shared/shared.module";
-import { LoadingSpinnerComponent } from "./shared/components/loading-spinner/loading-spinner.component";
 
 @NgModule({
   imports: [
@@ -47,7 +45,6 @@ import { LoadingSpinnerComponent } from "./shared/components/loading-spinner/loa
     IconModule,
     HttpClientModule,
     CoreModule,
-    SharedModule
   ],
   declarations: [
     AppComponent,
@@ -55,7 +52,6 @@ import { LoadingSpinnerComponent } from "./shared/components/loading-spinner/loa
     P404Component,
     P500Component,
     LoginComponent,
-    LoadingSpinnerComponent
   ],
   providers: [
     {

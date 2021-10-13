@@ -1,0 +1,24 @@
+<div class="input-group append">
+    <input
+      class="form-control"
+      placeholder="Busqueda.."
+      id="busqueda"
+      #busqueda
+      (keyup)="searchByEvent($event, busqueda.value)"
+    />
+    <button
+      class="input-group-btn btn btn-light"
+      type="submit"
+      (click)="valueSearch.emit(busqueda.value)"
+    >
+      <i class="fa fa-search"></i>
+    </button>
+    <button
+      *ngIf="busqueda.value"
+      class="input-group-btn btn btn-danger"
+      type=""
+      (click)="cleanSearch()"
+    >
+      <i class="fa fa-window-close bg-danger"></i>
+    </button>
+  </div>

@@ -1,4 +1,4 @@
-import {  Component, OnInit,  } from '@angular/core';
+import { Component,  OnInit } from "@angular/core";
 import { Alert, AlertsService } from "../../services/alerts/alerts.service";
 import { LoaderService } from "../../services/loader/loader.service";
 
@@ -7,37 +7,31 @@ import { LoaderService } from "../../services/loader/loader.service";
   templateUrl: "./index.component.html",
   styleUrls: ["../../app.component.css"],
 })
-export class IndexComponent implements OnInit{
-  alert: Alert ={exists:false,type:'',message:'',title:''};
-  loading:boolean=false ;
+export class IndexComponent implements OnInit {
+  alert: Alert = {} as Alert;
+  loading: boolean =true
 
-  version:string =''
-  fecha:string =''
+  version:string = '1.2.3.4'
+  fecha:string = '15/08/98'
 
   constructor(
     private alertService: AlertsService,
-    private loadService: LoaderService,
-  ) {
-  } 
-  
-  removeAlert(){
-    this.alertService.removeAlert()
-  }
-  
-  ngOnInit() {
-    this.alertService.Alert.subscribe(res=>{
-      setTimeout(() => {
-        this.alert = res
-      });
-    })
-    this.loadService.isLoading.subscribe(res=>{
-       setTimeout(() => {
-         this.loading = res
-       });
-   })
-    this.version = localStorage.getItem('version')
-    this.fecha = localStorage.getItem('fecha')
-    
-  }
+    private loadService: LoaderService
+  ) {}
 
+  ngOnInit() {
+    this.alertService.getAlert().subscribe((res) => {
+      setTimeout(() => {
+        this.alert = res;
+      }, );
+    });
+    this.loadService.getLoad().subscribe((isLoading) => {
+      setTimeout(() => {
+        this.loading = isLoading;
+      },)
+    });
+  }
+  removeAlert() {
+    this.alertService.removeAlert();
+  }
 }

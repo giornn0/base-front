@@ -1,0 +1,133 @@
+<div #topScrollAnchor></div>
+<div class="row wrapp-all animated fadeIn">
+  <div class="col-sm-12 pb-2">
+    <div class="row " style="height: 7vh">
+      <div class="col-xl-6">
+        <label class="form-title">Listado Usuarios ({{itemsPerPage}} de {{ totalItems }})</label>
+      </div>
+      <div class="col-xl-6  pb-2">
+        <div class="row">
+          <div class="col-7">
+            <app-shared-searcher
+              (valueSearch)="search($event)">
+            </app-shared-searcher>
+          </div>
+          <div class="col-5">
+            <div class="row">
+              <div class="col-8">
+                <button
+                  class="btn btn-block btn-primary pl-1 pr-1"
+                  routerLink="/usuarios/crear"
+                >
+                  <i class="fa fa-plus"></i><strong>  CREAR</strong>
+                </button>
+              </div>
+              <div class="col-4">
+                <button class="btn btn-block btn-secondary">
+                  <i class="icon-menu"></i>
+                </button>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12" style="padding-bottom: 2vh" >
+          <accordion [isAnimated]="true" >
+          <accordion-group  class="mb-20n list" *ngFor="let obj of users; let i = index"  [isDisabled]="true" 
+          
+          (mouseenter)="hoving(i)"
+          (mouseleave)="notHoving()"
+          >
+            <div class="row  " accordion-heading 
+            >
+              <div class="col-12 ">
+              <div class="row justify-content-between
+              align-items-center">
+                <div class="col-sm-10 ">
+                      <button
+                        class="
+                        btn btn-link btn-block
+                        justify-content-between
+                        align-items-center
+                        d-flex
+                        w-100
+                        shadow-none
+                        p-0
+                        "
+                        style="text-decoration: none;"
+                        type="button"
+                        >
+                        <div class="pull-left float-left font-weight-bold em-11 text-dark">
+                          <i class="fa fa-user mr-4 text-primary scaling"></i>
+                          {{obj.name}} - {{ obj.email }} / {{obj.role? obj.role:''}}</div>
+                      </button>
+                  </div>
+                  <div class="col-sm-2 ">
+                    <div class="row justify-content-between
+                    align-items-center">
+                    <div class="col-9 ">
+                      <app-buttons-actions
+                      class="animated fadeIn"
+                      *ngIf="accordionHoving-1 == i"
+                          [nombre]="obj.name"
+                          seccion="usuarios"
+                          [wantShow]="false"
+                          [id]="obj.id"
+                          (deleting)="onModalClose = $event"
+                          (confirmDelete)="delete($event)"
+                          ></app-buttons-actions>
+                    </div>
+                  <div class="col-3">
+                    <i 
+                    [ngClass]="false?'fa fa-chevron-down light  ':'fa fa-chevron-right light  '" 
+                    type="button"
+                    ></i>
+                  </div>
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div>
+          </accordion-group>
+        </accordion>
+      </div>
+      <div class="col-12">
+        <div class="row justify-content-between">
+          <div class="col-xs-1">
+            <div class="input-group" style="margin-left: 1.5vw">
+              <div class="input-group-prepend marg-left" style="padding-top: 0.5vh;">Ver </div>
+              <select #pager id="pager" (change)="changeTotalItems(pager.value)" 
+              class="form-control marg-left"  style="height:67%;">
+              <option [value]="itemsPerPage" default>{{itemsPerPage}}</option>
+              <option *ngFor="let take of takeOptions" [value]="take">{{take}}</option>
+            </select>
+            <div class="input-group-append marg-left" style="padding-top: 0.5vh;"> elementos</div>
+          </div>
+          </div>
+          <div class="row  marg-right">
+            <div class="col-12">
+              <div class="d-inline-block mr-3">
+                Pagina {{currentPage}} de {{totalPages}}
+              </div>
+              <div class="d-inline-block">
+                <pagination
+                  class="pagination-md "
+                  [maxSize]="5"
+                  [(ngModel)]="currentPage"
+                  [totalItems]="totalItems"
+                  previousText="&lsaquo;"
+                  nextText="&rsaquo;"
+                  firstText="&laquo;"
+                  lastText="&raquo;"
+                  [boundaryLinks]="true"
+                  (pageChanged)="pageChange($event)"
+                  [itemsPerPage]="itemsPerPage"
+                >
+              </pagination>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

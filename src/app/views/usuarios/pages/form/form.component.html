@@ -1,1 +1,148 @@
-<p>form works!</p>
+<div class="row wrapp-all">
+  <div class="col-sm-12">
+    <div class="form-title">
+      <strong>{{ title }}</strong>
+    </div>
+    <div class="card" style="margin-top: 2vh">
+      <div class="card-body">
+        <form [formGroup]="userForm">
+          <div class="row">
+            <div class="form-group col-sm-6">
+              <label class="form-col-form-label form" for="name"
+                >Nombre <strong class="leyenda-req">*</strong></label
+              >
+              <input
+                class="form-control"
+                [ngClass]="
+                  isInvalid('name') ? 'form-control is-invalid' : 'form-control'
+                "
+                [ngClass]="
+                  !isInvalid('name') && isTouched('name')
+                    ? 'form-control is-valid'
+                    : 'form-control'
+                "
+                formControlName="name"
+                id="name"
+                type="text"
+              />
+            </div>
+            <div class="form-group col-sm-6">
+              <label class="form-col-form-label form" for="last_name"
+                >Apellido <strong class="leyenda-req">*</strong></label
+              >
+              <input
+                class="form-control"
+                [ngClass]="
+                  isInvalid('last_name')
+                    ? 'form-control is-invalid'
+                    : 'form-control'
+                "
+                [ngClass]="
+                  !isInvalid('last_name') && isTouched('last_name')
+                    ? 'form-control is-valid'
+                    : 'form-control'
+                "
+                id="last_name"
+                type="text"
+                formControlName="last_name"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-6">
+              <label class="form-col-form-label form" for="email"
+                >Email <strong class="leyenda-req">*</strong></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                [ngClass]="
+                  isInvalid('email')
+                    ? 'form-control is-invalid'
+                    : 'form-control'
+                "
+                [ngClass]="
+                  !isInvalid('email') && isTouched('email')
+                    ? 'form-control is-valid'
+                    : 'form-control'
+                "
+                id="email"
+                formControlName="email"
+              />
+            </div>
+            <div class="form-group col-sm-6">
+              <label class="form-col-form-label form" for="password"
+                >Contraseña <strong class="leyenda-req">*</strong></label
+              >
+              <input
+                type="password"
+                class="form-control"
+                [ngClass]="
+                  isInvalid('password')
+                    ? 'form-control is-invalid'
+                    : 'form-control'
+                "
+                [ngClass]="
+                  !isInvalid('password') && isTouched('password')
+                    ? 'form-control is-valid'
+                    : 'form-control'
+                "
+                id="password"
+                formControlName="password"
+              />
+            </div>
+          </div>
+          <div class="row">
+              <div class="form-group col-sm-6">
+                  <label class="form-col-form-label form" for ="role">
+                      Tipo de Usuario <strong class="leyenda-req">*</strong>
+                  </label>
+                  <select
+                    id="role"
+                    class="form-control"
+                    [ngClass]="
+                      isInvalid('role')
+                        ? 'form-control is-invalid'
+                        : 'form-control'
+                    "
+                    [ngClass]="
+                      !isInvalid('role') && isTouched('role')
+                        ? 'form-control is-valid'
+                        : 'form-control'
+                    "
+                    formControlName="role"
+                  >
+                      <option [value]="null">Seleccione..</option>
+                      <option *ngFor="let role of roles" [value]="role.value">{{role.name}}</option>
+                  </select>
+              </div>
+          </div>
+        </form>
+        <hr />
+        Los campos marcados con <strong class="leyenda-req">*</strong> son
+        obligatorios
+      </div>
+      <div class="card-footer">
+        <div class="justify-content-between d-flex w-100-sm">
+          <button
+            class="btn btn-danger active"
+            style="width: 25%"
+            [routerLink]="['/planes/listar']"
+          >
+            <strong>CANCELAR</strong>
+          </button>
+          <button
+            [ngClass]="
+              isEdit ? 'btn  btn-success active' : 'btn  btn-primary active'
+            "
+            style="width: 25%"
+            (click)="submit()"
+            [disabled]="userForm.invalid"
+          >
+            <strong>{{ isEdit ? "GUARDAR" : "CREAR" }}</strong>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
