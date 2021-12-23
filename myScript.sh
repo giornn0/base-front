@@ -1,7 +1,7 @@
 #! /usr/bin/bash
 
 echo Probando script Generacion de archivos genericos para ABM y listados!
-echo RECORDAR que el nombre de section sera utilizado para el route por defecto!
+echo RECORDAR que el nombre de section sera utilizado para el route por defecto tanto en front como para los servicios de la API!
 cd src/app
 #VARIABLES
 #Uppercase by conevention
