@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Request } from '../../../shared/models/Request.model';
+import { Request } from '../../../shared/models/basic/Request.model';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment as env } from "../../../../environments/environment";

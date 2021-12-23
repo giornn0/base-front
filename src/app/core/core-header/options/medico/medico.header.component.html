@@ -1,0 +1,40 @@
+ <!-- Left Section -->
+ <div class="content-header">
+ <div>
+  <!-- Toggle Sidebar -->
+  <!-- Layout API, functionality initialized in Template._uiApiLayout()-->
+  <button  type="button" class="btn btn-alt-secondary me-5" data-toggle="layout" data-action="sidebar_toggle" (click)="toogleSidebar()">
+    <i class="fa fa-fw fa-bars"></i>
+  </button>
+  <!-- END Toggle Sidebar -->
+
+  <!-- Open Search Section -->
+  <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
+  <button type="button" class="btn btn-alt-secondary d-lg-none" data-toggle="layout" data-action="header_search_on">
+    <i class="fa fa-fw fa-search"></i> <span class="ms-1 d-none d-sm-inline-block">Buscar..</span>
+  </button>
+  <!-- END Open Search Section -->
+
+  <!-- Search form in larger screens -->
+  <form class="d-none d-lg-inline-block" action="be_pages_generic_search.html" method="POST">
+    <input type="text" class="form-control form-control-alt rounded-pill px-4" placeholder="Buscar.." id="page-header-search-input-full" name="page-header-search-input-full">
+  </form>
+  <!-- END Search form in larger screens -->
+</div>
+<!-- END Left Section -->
+
+<!-- Right Section -->
+<div>
+  <!-- Notifications Dropdown -->
+  <div class="dropdown d-inline-block">
+    <notifications></notifications>
+  </div>
+  <!-- END Notifications Dropdown -->
+
+  <!-- Shortcuts Dropdown -->
+  <div class="dropdown d-inline-block">
+    <aplicaciones></aplicaciones>
+  </div>
+  <!-- END Shortcuts Dropdown -->
+</div>
+</div>

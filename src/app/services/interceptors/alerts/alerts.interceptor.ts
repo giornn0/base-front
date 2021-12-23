@@ -23,7 +23,8 @@ export class AlertsInterceptor implements HttpInterceptor {
         tap((res: HttpEvent<any>) => {
           if (res instanceof HttpResponse) {
             if (res.body && res.body.message) {
-              this.alertService.addAlert("success", res.body.message);
+              if(res.status==201 ||res.status==202 )this.alertService.addAlertCRUD("info", res.body.message);
+              else this.alertService.addAlert("info", res.body.message);
             }
           }
         })

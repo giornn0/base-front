@@ -1,21 +1,34 @@
+  <i *ngIf="statusToggle.status!=undefined" style="z-index: 1000;"  type="button" (click)="changeToggle.emit({status: !(statusToggle.status==='true'),index:statusToggle.index});statusToggle.status='loading'" class="fas float-left btn-block-option scaling" [ngClass]="{'fa-toggle-on text-success':statusToggle.status==='true','fa-toggle-off text-danger':statusToggle.status==='false','fa-spinner fa-spin':statusToggle.status==='loading'}" ></i>
+  <div style="z-index: 1000;" class="dropdown   btn-block-option" dropdown *ngIf="estadoOptions &&userType==='admin'">
+    <button dropdownToggle *ngIf="valueEstado!='Aceptado'" type="button" class="btn  dropdown-toggle "  [ngClass]="classEstado">
+      <i *ngIf="changingEstadoState" class="fas fa-spinner fa-spin me-2 "></i><strong>{{valueEstado?valueEstado:'Estados'}}</strong>
+    </button>
+    <ul *dropdownMenu class="dropdown-menu" role="menu">
+      <li *ngFor="let opcion of estadoOptions"><a class="dropdown-item" (click)="setValueEstado(opcion.description,opcion.class,opcion.value)">{{opcion.description}}</a></li>
+    </ul>
+  </div>
+  <i *ngIf="subscribableSection" class="fas fa-bell js-animation-object animated text-secondary me-2" [ngClass]="{'swing':hoveringBell,'text-warning':subscriptionStatus,'fa-spinner fa-spin text-secondary':changingSubscription}" appOnMouseHover (mouseOver)="hoveringBell=true" (mouseOff)="hoveringBell=false" type="button" (click)="subcriptionAction()"></i>
+    <i *ngIf="wantShow"    style="z-index: 1000;" type="button" class="fas fa-info    btn-block-option me-2 mb-2" (click)="openAccordeon.emit()"></i>
+    <a *ngIf="wantEdit" [href]="[editRoute]" class="btn btn-orange  mx-2 ">
+      <i  style="z-index: 1000;" class="fa fa-pencil   scaling text-right text-white" type="button"></i>
+    </a>
+    <a *ngIf="wantDelete"  class="btn  btn-danger mx-2 ">
+      <i style="z-index: 1000;"  type="button" class="fas fa-trash-alt  scaling text-right text-white " data-toggle="modal" (click)="openDeleteModal()"></i>
+    </a>
 
-<i *ngIf="wantShow" class="fa fa-eye text-secondary mr-4 scaling" (click)="goWatch()"></i>
 
- <i *ngIf="wantEdit" class="fa fa-pencil mr-4 text-warning scaling" type="button" (click)="goEdit()"></i>
-
-<i *ngIf="wantDelete" type="button" class="fa fa-trash text-danger scaling" data-toggle="modal" (click)="openDeleteModal()"></i>
 
 <div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" (click)="modalClose()">
     <div class="modal-dialog modal-danger" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Eliminar {{seccion}}</h4>
+        <div class="modal-header bg-danger">
+          <h4 class="modal-title">Eliminar {{title}}</h4>
           <button type="button" class="close" (click)="modalClose()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <p>¿Seguro que quiere eliminar {{nombre}}?</p>
+          <p>¿Eliminar {{nombre}}?</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" (click)="modalClose()">Cancelar</button>

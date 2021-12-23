@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 // import { ObraSocial } from "../../../shared/models/obra-social.model";
 import { RootService } from '../../../services/http/root.service';
-import { fontName, fontNumber, fontPrimary } from "../../../shared/models/template.form.model";
+import { fontName, fontNumber, fontPrimary } from "../../../shared/models/basic/fonts.template.const";
 import { formatDate } from "../../../shared/functions/formatDate";
 
 
@@ -46,7 +46,6 @@ export class ListComponent implements OnInit {
       }
     });
     this.activatedRoute.queryParams.subscribe((query) => {
-      console.log(query)
       this.rootService
         .index('obrasSociales',query.page, query.take, query.search)
         .subscribe((res: any) => {

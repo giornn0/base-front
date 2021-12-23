@@ -1,16 +1,20 @@
-import { Directive, ElementRef, HostListener, Output } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, HostListener, Output } from '@angular/core';
 
 @Directive({
   selector: '[appOnMouseHover]'
 })
 export class OnMouseHoverDirective {
 
-  // @Output()
+  @Output()mouseOver: EventEmitter<any>=  new EventEmitter()
+  @Output()mouseOff: EventEmitter<any>=  new EventEmitter()
 
   constructor(private elementRef: ElementRef) { }
 
-  @HostListener('mouseover',['$event'])mouseHover(event:any){
-    console.log(event,'1qawdwadw')
+  @HostListener('mouseenter')hovering(){
+    this.mouseOver.emit()
+  }
+  @HostListener('mouseleave')leaving(){
+    this.mouseOff.emit()
   }
 
 }

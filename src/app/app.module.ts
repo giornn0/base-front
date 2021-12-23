@@ -72,7 +72,7 @@ import { LoadingInterceptor } from "./services/interceptors/loading/loading.inte
       provide: HTTP_INTERCEPTORS,
       useClass: LoadingInterceptor,
       multi: true,
-    },
+    }
   ],
   bootstrap: [AppComponent],
   exports: [BsDatepickerModule],

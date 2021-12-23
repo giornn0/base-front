@@ -6,24 +6,22 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class LoaderService {
 
+  constructor(){}
 
   loading: BehaviorSubject<boolean> = new BehaviorSubject(false)
   waiting = false
-
-
-  constructor() { }
-
+  inPageLoad = false
 
   startLoading(inPage=false){
-    if(this.waiting) return
+    if(this.waiting || this.inPageLoad) return
     if(!inPage)return  this.loading.next(true)
   }
   endLoading(inPage=false){
-    if(this.waiting) return
+    if(this.waiting || this.inPageLoad) return
     if(!inPage) return this.loading.next(false)
   }
 
-  getLoad():Observable<boolean>{
+  get getLoad():Observable<boolean>{
     return this.loading.asObservable()
   }
 

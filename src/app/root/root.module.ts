@@ -12,12 +12,18 @@ import { AccordionModule } from "ngx-bootstrap/accordion";
 import { SharedModule } from '../shared/shared.module';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ListComponent } from "./root-list/example-use/list.template";
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { RootShowComponent } from "./root-show/root-show.component";
+import { ModalModule } from "ngx-bootstrap/modal";
+import { ActionsFilterDirective } from './root-form/directives/actions-filter.directive';
 
 @NgModule({
   declarations: [
     RootFormComponent,
     RootListComponent,
-    ListComponent
+    RootShowComponent,
+    ListComponent,
+    ActionsFilterDirective
   ],
   imports: [
     CommonModule,
@@ -28,11 +34,14 @@ import { ListComponent } from "./root-list/example-use/list.template";
     BsDatepickerModule,
     AccordionModule,
     PaginationModule,
-    SharedModule
+    TooltipModule,
+    SharedModule,
+    ModalModule
   ],
   exports: [
     RootFormComponent,
     RootListComponent,
+    RootShowComponent,
   ],
 })
 export class RootModule {}

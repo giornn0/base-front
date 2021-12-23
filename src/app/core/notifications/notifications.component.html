@@ -1,0 +1,33 @@
+<div appClickOutside (clickedOutside)="dropNoti=false">
+  <button  type="button" class="btn btn-alt-secondary" (click)="dropNoti = !dropNoti" [ngClass]="dropNoti?'show':''" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <i class="fa fa-fw fa-bell notification-icon" >
+      <span class="nav-main-link-badge badge rounded-pill bg-danger notification-counter-header" *ngIf="notifications.length>0">{{notifications.length}}</span>
+    </i>
+  </button>
+  <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"style="height:60vh;overflow-y:auto"  [ngClass]="dropNoti?'show bot-end-dropdown':''"  aria-labelledby="page-header-notifications-dropdown" data-popper-placement="bottom-end">
+    <div class="bg-primary-dark rounded-top fw-semibold text-white text-center p-3">
+      Notificaciones
+    </div>
+    <ul class="nav-items my-2 " >
+      <li *ngFor="let mensaje of notifications">
+            <div class="block block-rounded block-link-pop">
+                <div class="block-content block-content-full d-flex align-items-center justify-content-between">
+                  <div class="row">
+                    <div class="col-2">
+                      <i class="fa fa-fw fa-envelope text-warning"></i>
+                    </div>
+                    <div class="col-10">
+                      <div class="fw-semibold">{{mensaje.mensaje }}</div>
+                      <div class="text-muted">
+                        {{mensaje.created_at | date}}</div>
+                    </div>
+                  </div>
+                  <div class="pull-right float-right">
+                    <i type="button" (click)="deleteNotification(mensaje)" class="btn btn-success fa fa-check-circle  btn-block-option"></i>
+                  </div>
+                </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

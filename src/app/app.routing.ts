@@ -17,8 +17,15 @@ export const routes: Routes = [
   // },
   // {
   //   path: "home",
-  //   redirectTo: "solicitudes/listar",
+  //   // loadChildren:()=>
+  //   // import("./views/home/home-routing.module").then(m=>m.HomeModule)
+  //   redirectTo: "centrosAtencion/listar",
   // },
+  {
+    path: "",
+    pathMatch: 'full',
+    redirectTo: "centrosAtencion/listar",
+  },
   {
     path: "404",
     component: P404Component,
@@ -43,7 +50,7 @@ export const routes: Routes = [
   {
     path: "",
     component:IndexComponent,
-    // canActivateChild: [AuthGuard],
+    canActivateChild: [AuthGuard],
     data: {
       title: "Inicio",
     },

@@ -1,0 +1,30 @@
+<div class="row">
+  <div *ngFor="let alert of alerts;index as ind "  data-notify="container" class="col-11 col-sm-4 alert animated fadeIn alert-dismissible dashmix-alert" [ngClass]="'alert-'+alert.type+' alert-position-'+(alerts.length-ind-1) " data-notify-position="top-right">
+    <p  class="mb-0">
+      <span data-notify="icon" class="fa me-1" [ngClass]="{'fa-info-circle':alert.type==='info','fa-exclamation':alert.type==='warning','fa-check':alert.type,'fa-times':alert.type==='danger'}"></span>
+      <span data-notify="title" >
+        {{ alert.title }}
+      </span>
+      <span data-notify="message">
+        {{ alert.message }}
+      </span>
+    </p>
+    <a class="p-2 m-1 dashmix-close text-dark" data-notify="dismiss" aria-label="Close" type="button" (click)="removeAlert(alert)">
+      <i class="fa fa-times"></i></a>
+  </div>
+</div>
+<div class="row">
+  <div *ngFor="let alert of alertsCRUD;index as ind "  data-notify="container" class="col-11 col-sm-4 alert animated fadeIn alert-dismissible dashmix-alert" [ngClass]="'alert-'+alert.type+' alert-position-crud-'+(alertsCRUD.length-ind-1) " data-notify-position="bottom-left">
+    <p  class="mb-0">
+      <span data-notify="icon" class="fa me-1" [ngClass]="{'fa-info-circle':alert.type==='info','fa-exclamation':alert.type==='warning','fa-check':alert.type,'fa-times':alert.type==='danger'}"></span>
+      <span data-notify="title" >
+        {{ alert.title }}
+      </span>
+      <span data-notify="message">
+        {{ alert.message }}
+      </span>
+    </p>
+    <a class="p-2 m-1 dashmix-close text-dark" data-notify="dismiss" aria-label="Close" type="button" (click)="removeAlertCRUD(alert)">
+      <i class="fa fa-times"></i></a>
+  </div>
+</div>

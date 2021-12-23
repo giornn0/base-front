@@ -1,47 +1,82 @@
-<app-sidebar style="z-index: 100;" #appSidebar [fixed]="true" [display]="'lg'" [minimized]="sidebarMinimized" (minimizedChange)="toggleMinimize($event)">
-  <div class="dif-hover "  ><i class="fa fa-database mr-1 pt-2"></i><label  class="pt-2"style="color:azure" (click)="primaryModal.show()">Importar tablas</label></div>
-    <app-sidebar-nav [navItems]="navItems" [perfectScrollbar] [disabled]="appSidebar.minimized">
-    </app-sidebar-nav>
-    <app-sidebar-minimizer></app-sidebar-minimizer>
-  </app-sidebar>
+<!--
+    <app-sidebar  #appSidebar [fixed]="true" [display]="'lg'" [minimized]="sidebarMinimized" (minimizedChange)="toggleMinimize($event)">
+        <app-sidebar-nav [navItems]="navItems" [perfectScrollbar] [disabled]="appSidebar.minimized">
+        </app-sidebar-nav>
+        <app-sidebar-minimizer></app-sidebar-minimizer>
+      </app-sidebar>
+
+  -->
+        <!-- Side Header -->
+        <div *ngIf="role==='admin'||role==='owner'">
+
+          <div class="bg-header-dark">
+            <div class="content-header bg-white-5">
+              <!-- Logo -->
+              <a class="fw-semibold text-white tracking-wide" href="index.html">
+                <span class="smini-visible">
+                  A<span class="opacity-75">R</span>
+                </span>
+                <span class="smini-hidden">
+                  APD<span class="opacity-75">TR</span>
+                </span>
+              </a>
+              <!-- END Logo -->
   
-<div bsModal #primaryModal="bs-modal" class="modal fade" tabindex="-1" role="form" aria-labelledby="myModalLabel" aria-hidden="true" >
-  <div class="modal-dialog modal-primary" role="form">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Importar tablas</h4>
-        <button type="button" class="close"  aria-label="Close" (click)="primaryModal.hide()" (click)="cleanImportador()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-          <form [formGroup]="tablaForm">
-              <div class="row">
-                  <div class="form-group col-sm-12">
-                    <label class="form-col-form-label" for="tipo_tabla">Tipo de Tabla</label>
-                    <select class="" id="tipo_tabla" formControlName="tipo_tabla">
-                        <option [value]="null" default disabled>Seleccione ..</option>
-                      <option *ngFor="let tipos of options" [value]="tipos.value">{{tipos.description}}</option>
-                      </select>  
-                  </div>
+              <!-- Options -->
+              <div>
+                <!-- Toggle Sidebar Style -->
+                <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
+                <!-- Class Toggle, functionality initialized in Helpers.dmToggleClass() -->
+                <button type="button" class="btn btn-sm btn-alt-secondary" (click)="changeTheme()" data-toggle="class-toggle" data-target="#sidebar-style-toggler" data-class="fa-toggle-off fa-toggle-on">
+                  <i class="fa" [ngClass]="theme==='dark'?'fa fa-toggle-on':'fa-toggle-off'" id="sidebar-style-toggler"></i>
+                </button>
+                <!-- END Toggle Sidebar Style -->
+                <!-- Dark Mode -->
+                <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
+                <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="class-toggle" data-target="#dark-mode-toggler" data-class="far fa" onclick="Dashmix.layout('dark_mode_toggle') ;">
+                  <i class="far fa-moon" id="dark-mode-toggler"></i>
+                </button>
+                <!-- END Dark Mode -->
+  
+                <!-- Close Sidebar, Visible only on mobile screens -->
+                <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
+                <button type="button" class="btn btn-sm btn-alt-secondary d-lg-none" data-toggle="layout" data-action="sidebar_close"(click)="sidebarService.toogle(false)" >
+                  <i class="fa fa-times-circle"></i>
+                </button>
+                <!-- END Close Sidebar -->
               </div>
-              <div class="row">
-                  <div class="form-group col-sm-12">
-                      <button class="dropdown-item" ><label for="tablas"><i class="fa fa-database"></i>{{archivoName? archivoName :'ARCHIVO CSV'}}</label></button>
-                      <input 
-                      type="file"
-                      style="display:none"
-                      id="tablas"
-                      (change)="uploadTabla($event)"
-                      accept=".sql,.csv">
-                  </div>
-              </div>
-          </form>
+              <!-- END Options -->
+            </div>
+          </div>
+          <!-- END Side Header -->
+  
+          <!-- Sidebar Scrolling -->
+          <div class="js-sidebar-scroll overflow-auto">
+            <!-- Side Navigation -->
+            <div class="content-side">
+              <ul class="nav-main">
+                <li class="nav-main-item">
+                  <a class="nav-main-link" href="be_pages_dashboard.html">
+                    <i class="nav-main-link-icon fa fa-location-arrow"></i>
+                    <span class="nav-main-link-name">Dashboard</span>
+                    <span class="nav-main-link-badge badge rounded-pill bg-primary">8</span>
+                  </a>
+                </li>
+                <div *ngFor="let atajo of navItems">
+                  <li class="nav-main-heading">{{atajo.name}}</li>
+                  <li class="nav-main-item" *ngFor="let child of atajo.children">
+                    <a class="nav-main-link" [routerLink]="child.url">
+                      <i class="nav-main-link-icon" [ngClass]="child.icon"></i>
+                      <span class="nav-main-link-name">{{child.name}}</span>
+                    </a>
+                  </li>
+                </div>
+              </ul>
+            </div>
+            <!-- END Side Navigation -->
+          </div>
+          <!-- END Sidebar Scrolling -->
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="primaryModal.hide()" (click)="cleanImportador()">Cancelar</button>
-        <button type="button" class="btn btn-danger" (click)="insertarTablas()" (click)=" primaryModal.hide()">Confirmar</button>
+      <div *ngIf="role==='medico'">
+        <medico-sidenav></medico-sidenav>
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->

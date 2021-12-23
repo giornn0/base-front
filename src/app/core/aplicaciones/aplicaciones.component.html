@@ -1,0 +1,62 @@
+<div appClickOutside (clickedOutside)="show=false">
+  <button type="button" class="btn btn-alt-secondary" [ngClass]="{'show':show}" id="page-header-shortcuts-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="toggle()">
+    <i class="fa fa-fw fa-th-large"></i>
+  </button>
+  <div class="dropdown-menu dropdown-menu-end dropdown-menu-lg rounded-0 p-0 aplicacion-position" [ngClass]="{'show':show}" aria-labelledby="page-header-shortcuts-dropdown">
+    <div class="bg-image" style="background-image: url('assets/media/photos/photo21.jpg');">
+      <div class="bg-primary-op fw-semibold text-white text-center px-3 py-4">
+        <div class="fs-4">Atajos</div>
+      </div>
+    </div>
+    <div class="row g-0 bg-body-extra-light push">
+      <div class="col-6">
+        <a class="block block-transparent block-link-pop text-center mb-0" href="javascript:void(0)">
+          <div class="block-content block-content-full ratio ratio-4x3">
+            <div class="d-flex justify-content-center align-items-center">
+              <div>
+                <i class="fa fa-2x fa-user-md text-xsmooth"></i>
+                <div class="fs-sm fw-semibold mt-2 text-uppercase">PACIENTES</div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-6">
+        <a class="block block-transparent block-link-pop text-center mb-0" href="javascript:void(0)">
+          <div class="block-content block-content-full ratio ratio-4x3">
+            <div class="d-flex justify-content-center align-items-center">
+              <div>
+                <i class="fa fa-2x fa-comments text-xmodern"></i>
+                <div class="fs-sm fw-semibold mt-2 text-uppercase">FORO</div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-6">
+        <a class="block block-transparent block-link-pop text-center mb-0" href="javascript:void(0)">
+          <div class="block-content block-content-full ratio ratio-4x3">
+            <div class="d-flex justify-content-center align-items-center">
+              <div>
+                <i class="fa fa-2x fa-book text-xeco"></i>
+                <div class="fs-sm fw-semibold mt-2 text-uppercase">BASES</div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-6">
+        <a class="block block-transparent block-link-pop text-center mb-0" href="javascript:void(0)">
+          <div class="block-content block-content-full ratio ratio-4x3">
+            <div class="d-flex justify-content-center align-items-center">
+              <div>
+                <i class="fa fa-2x fa-calendar text-xinspire"></i>
+                <div class="fs-sm fw-semibold mt-2 text-uppercase">CITAS</div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

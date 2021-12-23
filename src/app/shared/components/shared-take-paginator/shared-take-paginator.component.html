@@ -1,24 +1,22 @@
-<div class="input-group">
+<div class="input-group w-50">
     <div
-      class="input-group-prepend marg-left"
-      style="padding-top: 0.5vh"
+      class="input-group-text "
     >
-      Ver
+      Ver 
     </div>
-    <select
-      #pager
-      id="pager"
-      (change)="c_TotalItems.emit(pager.value)"
-      class="form-control marg-left"
-      style="height: 67%"
-    >
-    <option [value]="i_perPage" default>{{i_perPage}}</option>
-    <option *ngFor="let take of takeOptions" [value]="take">{{take}}</option>
-    </select>
-    <div
-      class="input-group-append marg-left"
-      style="padding-top: 0.5vh"
-    >
+      <select
+        #pager
+        id="pager"
+        (change)="c_TotalItems.emit(pager.value)"
+        class="form-control  mx-2 pb-2"
+      widht="50%"
+        >
+      <option [value]="i_perPage" default>{{i_perPage}}</option>
+      <option *ngFor="let take of takeOptions" [value]="take">{{take}}</option>
+      </select>
+      <div
+      class="input-group-text"
+      >
       Elementos
     </div>
   </div>

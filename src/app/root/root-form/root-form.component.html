@@ -1,100 +1,285 @@
 
-<div class="row wrapp-all">
-    <div class="col-sm-12">
-      <div class="form-title">
-        <strong>{{ title }}</strong>
-      </div>
-      <div class="card" style="margin-top: 2vh">
-        <div class="card-body">
-          <form [formGroup]="form" *ngIf="template && template.length">
-              <div *ngFor="let row of template">
-                  <div class="row" *ngIf="row && row.length">
-                              <div *ngFor="let col of row" [ngClass]="col.class">
-                                    <label class="form-col-form-label" [for]="col.name">{{col.label}} <strong *ngIf="col.required" class="leyenda-req-2">*</strong> </label>
-                                    <input
-                                    *ngIf="col.type ==='input'"
-                                    class="form-control"
-                                    [ngClass]="
-                                        isInvalid(col.name) ? 'form-control is-invalid' : 'form-control'
-                                    "
-                                    [ngClass]="
-                                        !isInvalid(col.name) && isTouched(col.name)
-                                        ? 'form-control is-valid'
-                                        : 'form-control'
-                                    "
-                                    [formControlName]="col.name"
-                                    [id]="col.name"
-                                    [type]="col.typeinput"
-                                    />
-                                    <select
-                                    *ngIf="col.type ==='select'"
-                                    class="form-control"
-                                    [ngClass]="
-                                        isInvalid(col.name) ? 'form-control is-invalid' : 'form-control'
-                                    "
-                                    [ngClass]="
-                                        !isInvalid(col.name) && isTouched(col.name)
-                                        ? 'form-control is-valid'
-                                        : 'form-control'
-                                    "
-                                    [formControlName]="col.name"
-                                    [id]="col.name">
-                                    <option [value]="null" >Seleccione ..</option>
-                                    <option *ngFor="let option of col.options" [value]="option.value" >{{option.description}}</option>
-                                </select>
-                                <input
-                                *ngIf="col.type ==='date'"
-                                (keyup)="dateMask($event)"
-                                class="form-control"
-                                [ngClass]="
-                                    isInvalid(col.name) ? 'form-control is-invalid' : 'form-control'
-                                "
-                                [ngClass]="
-                                    !isInvalid(col.name) && isTouched(col.name)
-                                    ? 'form-control is-valid'
-                                    : 'form-control'
-                                "
-                                bsDatepicker
-                                placeholder="dd/mm/aaaa"
-                                #dp="bsDatepicker"
-                                [formControlName]="col.name"
-                                [bsConfig]="{
-                                    isAnimated: true,
-                                    dateInputFormat: 'DD/MM/YYYY',
-                                    containerClass: 'theme-dark-blue'
-                                }"
-                                [type]="col.typeinput"
-                                />
-                                </div>
-                          </div>
-              </div>
-          </form>
-          <hr />
-          Los campos marcados con <strong class="leyenda-req-2">*</strong> son
-          obligatorios
+    <div class="p-0 m-0" >
+      <div class="block block-rounded">
+        <div class="block-header block-header-default" *ngIf="wantTitle">
+          <div class="form-title" >
+            <strong>{{ title }}</strong>
+          </div>
         </div>
-        <div class="card-footer">
-          <div class="justify-content-between d-flex w-100-sm">
-            <button
-              class="btn btn-danger active"
-              style="width: 25%"
-              [routerLink]="['/'+section+'/listar']"
-            >
-              <strong>CANCELAR</strong>
-            </button>
-            <button
-              [ngClass]="
-                forEdit ? 'btn  btn-success active' : 'btn  btn-primary active'
-              "
-              style="width: 25%"
-              (click)="submit()"
-              [disabled]="form.invalid"
-            >
-              <strong>{{ forEdit ? "GUARDAR" : "CREAR" }}</strong>
-            </button>
+        <div class="block-content" >
+          <div class="card-body"  *ngIf="loadTemplate">
+            <form [formGroup]="form"  *ngIf="template && template.length">
+                <div *ngFor="let row of template">
+                    <div class="row" *ngIf="row && row.length">
+                      <div *ngFor="let col of row"[ngClass]="col.class">
+                          <div *ngIf="col.type==='file'" class="form-group-row p-3" [ngClass]="!fileName?'encuadre-secondary':'encuadre-secondary'" >
+                            <div class="col-12">
+                              <div class="row mt-2">
+                                <div class="col-8">
+                                  <div class="form-group-row">
+                                    <label   class="form-label" [for]="col.name" [ngClass]="{'text-danger font-weight-bold':warnedCamps&&warnedCamps.includes(col.name)}">Archivo adjunto <strong *ngIf="col.required" class="leyenda-req-2">*</strong></label>
+                                  </div>
+                                  <label  class="text-left" [for]="col.name" [ngClass]="{'text-danger font-weight-bold':warnedCamps&&warnedCamps.includes(col.name)}">
+                                      {{ fileName?fileName:'SIN ARCHIVO'}} 
+                                    </label>
+                                </div>
+                                <div class="col-4">
+                                  <label [for]="col.name" class="btn btn-block text-white p-2 m-2 mt-2 font-weight-bold  pull-right" [ngClass]="fileName?'btn-secondary active':'btn-success'">{{fileName?'CAMBIAR':'ADJUNTAR'}}</label>
+                                </div>
+                                </div>
+                              </div>
+                              <input
+                                type="file"
+                                style="display: none"
+                                [id]="col.name"
+                                (change)="uploadItem($event,col.name)"
+                                [accept]="col.accepts"
+                              />
+                            </div>
+                            <div class="row" *ngIf="col.type==='filter'">
+                              <div class="col-12">
+                                <form [formGroup]="filtroForm" >
+                                  <div class="row ">
+                                    <label class="form-label">{{col.label}}</label>
+                                    <div [ngClass]="filtro.class" *ngFor="let filtro of col.filtros">
+                                      <div class="form-floating mb-3">
+                                            <input [id]="filtro.name" class="form-control" [value]="null" [type]="filtro.type?filtro.type:'text'"  [formControlName]="filtro.name" placeholder="..">
+                                            <label [for]="filtro.name" class="form-label">{{filtro.label}}</label>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </form>
+                                <div class="col-12 "  *ngIf="refreshingFilter">
+                                  <div class="d-flex justify-content-center display-4">
+                                    <i class="fa fa-spinner fa-spin fa-10x fa-align-center"></i> 
+                                  </div>
+                                </div>
+                                <div class="col-12 mb-2" *ngIf="listFromFilter.length && !refreshingFilter">
+                                  <div *ngFor="let option of listFromFilter;index as ind">
+                                    <div  *ngIf="!isSelectedForTheFilter(option,col.name)" class="form-check form-block js-animation-object animated " [ngClass]="option.classAnimationIn">
+                                      <input  #filterOptions [id]="'option-'+option.id"   (keyup)="actionsFilter($event,ind)"  class="form-check-input" (click)="pushToFilter(option,col.name);option.classAnimationIn='fadeOutDown';selectionOfAnObject.emit(true)">
+                                      <label [for]="'option-'+option.id" class="form-check-label">
+                                        <span class="d-flex align-items-center"> 
+                                          <span class="bg-secondary p-1" style="border-radius: 2rem;">
+                                            <i class="fas fa-user"></i>
+                                          </span>
+                                          <span class="ms-2">
+                                            <span class="fw-bold">{{option[col.titleAccess]}}</span>
+                                            <span class="d-block fs-sm text-muted">{{option[col.descriAccess]}}</span>
+                                          </span>
+                                        </span>
+                                      </label>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-12" *ngIf="form.controls[col.name].value.length">
+                                  Selecciones
+                                  <div *ngFor="let option of form.controls[col.name].value" class="form-check form-block js-animation-object animated fadeInDown" [ngClass]="option.classAnimationOut">
+                                    <input [id]="'selected-'+option.id" class="form-check-input" (click)="removeFromFilter(option,col.name);option.classAnimationOut='zoomOutLeft'" type="checkbox" checked>
+                                    <label [for]="'selected-'+option.id" class="form-check-label">
+                                      <span class="d-flex align-items-center">
+                                        <span class="bg-secondary p-1" style="border-radius: 2rem;">
+                                          <i class="fas fa-user"></i>
+                                        </span>
+                                        <span class="ms-2">
+                                          <span class="fw-bold">{{option[col.titleAccess]}}</span>
+                                          <span class="d-block fs-sm text-muted">{{option[col.descriAccess]}}</span>
+                                        </span>
+                                      </span>
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                              </div>
+                            <div class="form-floating mb-3" *ngIf="col.textarea">
+                                <textarea
+                                style="height:200px"
+                              *ngIf="col.type ==='input'"
+                              class="form-control"
+                              [ngClass]="{'is-invalid ':isInvalid(col.name) &&isTouched(col.name)&&(hasValue(col.name)|| col.required),'is-valid-test':!isInvalid(col.name) && isTouched(col.name)&& (hasValue(col.name) || col.required),'is-warned':warnedCamps&&warnedCamps.includes(col.name),'text-center':col.center,'text-end':col.right || col.typeinput==='number'}"
+
+                              [placeholder]="col.placeholder? col.placeholder : ''"
+                              [formControlName]="col.name"
+                              [id]="col.name"
+                              ></textarea>
+                              <label *ngIf="col.type!='file'" class="form-label" [ngClass]="{'text-danger font-weight-bold':warnedCamps&&warnedCamps.includes(col.name)}" [for]="col.name">{{col.label}} <strong *ngIf="col.required" class="leyenda-req-2">*</strong> </label>
+                          </div>
+                          <div class="form-group row" *ngIf="col.type==='checkboxes'">
+                            <label  class="col-md-3 col-form-label" [for]="col.name" [ngClass]="{'text-danger font-weight-bold':warnedCamps&&warnedCamps.includes(col.name)}">{{col.label}} <strong *ngIf="col.required" class="leyenda-req-2">*</strong> </label>
+                            <div class="col-md-9" *ngIf="col.index" >
+                              <div  class="form-check" *ngFor="let option of selectOptions[col.index]" >
+                                <input type="checkbox" class="form-check-input" [value]="option.id" [id]="option.id" (click)="updatingArr(option.id,col.name)">
+                                <label [for]="option.id" class="form-check-label" >{{option.titulo}}</label>
+                              </div>
+                            </div>
+                              <div class="col-md-9 text-center m-2" *ngIf="!col.index">
+                                <i class="fa fa-spinner fa-spin fa-2x"></i>
+                              </div>
+                          </div>
+                          <div class="mb-3" *ngIf="col.group">
+                            <label *ngIf="col.type!='file'" class="form-label" [ngClass]="{'text-danger font-weight-bold':warnedCamps&&warnedCamps.includes(col.name)}" [for]="col.name">{{col.label}} <strong *ngIf="col.required" class="leyenda-req-2">*</strong> </label>
+                            <div class="input-group" >
+                              <span  *ngIf="col.prePendIcon" class="input-group-text"><i class="fa" [ngClass]="col.prePendIcon"></i></span>
+                                <input
+                                *ngIf="col.type ==='input'"
+                                class="form-control"
+                                [ngClass]="{'is-invalid ':isInvalid(col.name) &&isTouched(col.name)&&(hasValue(col.name)|| col.required),'is-valid-test':!isInvalid(col.name) && isTouched(col.name)&& (hasValue(col.name) || col.required),'is-warned':warnedCamps&&warnedCamps.includes(col.name),'text-center':col.center,'text-end':col.right || col.typeinput==='number'}"
+                                [placeholder]="col.placeholder? col.placeholder : ''"
+                                [formControlName]="col.name"
+                                [id]="col.name"
+                                [type]="col.typeinput?col.typeinput:'text'"
+                                />
+                                <input
+                              *ngIf="col.type ==='zerofill'"
+                              class="form-control text-right"
+                              (keyup)="zerofill($event,col.zerofill,col.name)"
+                              [ngClass]="{'is-invalid ':isInvalid(col.name) &&isTouched(col.name)&&(hasValue(col.name)|| col.required),'is-valid-test':!isInvalid(col.name) && isTouched(col.name)&& (hasValue(col.name) || col.required),'is-warned':warnedCamps&&warnedCamps.includes(col.name),'text-center':col.center,'text-end':col.right || col.typeinput==='number'}"
+
+                              [placeholder]="col.placeholder? col.placeholder : ''"
+                              [formControlName]="col.name"
+                              [id]="col.name"
+                              [type]="col.typeinput?col.typeinput:'text'"
+                              />
+                                <input
+                                *ngIf="col.type ==='cuit'"
+                                (keyup)="cuitMask($event)"
+                                class="form-control tex-right"
+                                [ngClass]="{'is-invalid ':isInvalid(col.name) &&isTouched(col.name)&&(hasValue(col.name)|| col.required),'is-valid-test':!isInvalid(col.name) && isTouched(col.name)&& (hasValue(col.name) || col.required),'is-warned':warnedCamps&&warnedCamps.includes(col.name),'text-center':col.center,'text-end':col.right || col.typeinput==='number'}"
+                              [placeholder]="col.placeholder? col.placeholder : ''"
+                                [formControlName]="col.name"
+                                [id]="col.name"
+                                [type]="col.typeinput?col.typeinput:'text'"
+                                />
+                                <select
+                                *ngIf="col.type ==='select'"
+                                class="form-control"
+                                [ngClass]="{'is-invalid ':isInvalid(col.name) &&isTouched(col.name)&&(hasValue(col.name)|| col.required),'is-valid-test':!isInvalid(col.name) && isTouched(col.name)&& (hasValue(col.name) || col.required),'is-warned':warnedCamps&&warnedCamps.includes(col.name),'text-center':col.center,'text-end':col.right || col.typeinput==='number'}"
+
+                              [formControlName]="col.name"
+                                [id]="col.name">
+                                <option [value]="null" disabled>{{col.placeholder?col.placeholder:'Seleccione ..'}}</option>
+                                <option *ngFor="let option of selectOptions[col.index]" [value]="option[col.optionsValueAccess]" >{{option[col.optionsDescriptionAccess]}}</option>
+                            </select>
+                            <input
+                            *ngIf="col.type ==='date'"
+                            (keyup)="dateMask($event)"
+                            class="form-control"
+                            [ngClass]="{'is-invalid ':isInvalid(col.name) &&isTouched(col.name)&&(hasValue(col.name)|| col.required),'is-valid-test':!isInvalid(col.name) && isTouched(col.name)&& (hasValue(col.name) || col.required),'is-warned':warnedCamps&&warnedCamps.includes(col.name),'text-center':col.center,'text-end':col.right || col.typeinput==='number'}"
+
+                            bsDatepicker
+                            placeholder="dd/mm/aaaa"
+                            #dp="bsDatepicker"
+                            [formControlName]="col.name"
+                            [bsConfig]="{
+                                isAnimated: true,
+                                dateInputFormat: 'DD/MM/YYYY',
+                                containerClass: 'theme-dark-blue'
+                            }"
+                            [type]="col.typeinput"
+                            />
+                            <span  *ngIf="col.appendIcon" class="input-group-text"><i class="fa" [ngClass]="col.appendIcon"></i></span>
+                            </div>
+                          </div>
+                          <!-- SACAR EL col.required al chequeo del INVALIDA PARA EVITAR QUE SE PONGA EN ROJO CON EL TOUCH -->
+                          <div class="mb-3 " #default *ngIf="!col.group&&!col.textarea&& col.type!='checkboxes'&&col.type!='filter'">
+                          <label *ngIf="col.type!='file'" class="form-label" [ngClass]="{'text-danger font-weight-bold':warnedCamps&&warnedCamps.includes(col.name)}" [for]="col.name">{{col.label}} <strong *ngIf="col.required" class="leyenda-req-2">*</strong> </label>
+                              <input
+                              *ngIf="col.type ==='input'"
+                              class="form-control"
+                              [ngClass]="{'is-invalid ':isInvalid(col.name) &&isTouched(col.name)&&(hasValue(col.name)|| col.required),'is-valid-test':!isInvalid(col.name) && isTouched(col.name)&& (hasValue(col.name) || col.required),'is-warned':warnedCamps&&warnedCamps.includes(col.name),'text-center':col.center,'text-end':col.right || col.typeinput==='number'}"
+                              [placeholder]="col.placeholder? col.placeholder : ''"
+                              [formControlName]="col.name"
+                              [id]="col.name"
+                              [type]="col.typeinput?col.typeinput:'text'"
+                              />
+                              <input
+                            *ngIf="col.type ==='zerofill'"
+                            class="form-control"
+                            (keyup)="zerofill($event,col.zerofill,col.name)"
+                            [ngClass]="{'is-invalid ':isInvalid(col.name) &&isTouched(col.name)&&(hasValue(col.name)|| col.required),'is-valid-test':!isInvalid(col.name) && isTouched(col.name)&& (hasValue(col.name) || col.required),'is-warned':warnedCamps&&warnedCamps.includes(col.name),'text-center':col.center,'text-end':col.right || col.typeinput==='number'}"
+
+                            [ngClass]="col.center?'text-center':''"
+                            [placeholder]="col.placeholder? col.placeholder : ''"
+                            [formControlName]="col.name"
+                            [id]="col.name"
+                            [type]="col.typeinput?col.typeinput:'text'"
+                            />
+                              <input
+                              *ngIf="col.type ==='cuit'"
+                              (keyup)="cuitMask($event)"
+                              class="form-control"
+                              [ngClass]="{'is-invalid ':isInvalid(col.name) &&isTouched(col.name)&&(hasValue(col.name)|| col.required),'is-valid-test':!isInvalid(col.name) && isTouched(col.name)&& (hasValue(col.name) || col.required),'is-warned':warnedCamps&&warnedCamps.includes(col.name),'text-center':col.center,'text-end':col.right || col.typeinput==='number'}"
+                            
+                            [placeholder]="col.placeholder? col.placeholder : ''"
+                              [formControlName]="col.name"
+                              [id]="col.name"
+                              [type]="col.typeinput?col.typeinput:'text'"
+                              />
+                              <select
+                              *ngIf="col.type ==='select'"
+                              class="form-control"
+                              [ngClass]="{'is-invalid ':isInvalid(col.name) &&isTouched(col.name)&&(hasValue(col.name)|| col.required),'is-valid-test':!isInvalid(col.name) && isTouched(col.name)&& (hasValue(col.name) || col.required),'is-warned':warnedCamps&&warnedCamps.includes(col.name),'text-center':col.center,'text-end':col.right || col.typeinput==='number'}"
+
+                            [formControlName]="col.name"
+                              [id]="col.name">
+                              <option [value]="null" disabled>{{col.placeholder?col.placeholder:'Seleccione ..'}}</option>
+                              <option *ngFor="let option of selectOptions[col.index]" [value]="option[col.optionsValueAccess]" >{{option[col.optionsDescriptionAccess]}}</option>
+                          </select>
+                          <input
+                          *ngIf="col.type ==='date'"
+                          (keyup)="dateMask($event)"
+                          class="form-control"
+                          [ngClass]="{'is-invalid ':isInvalid(col.name) &&isTouched(col.name)&&(hasValue(col.name)|| col.required),'is-valid-test':!isInvalid(col.name) && isTouched(col.name)&& (hasValue(col.name) || col.required),'is-warned':warnedCamps&&warnedCamps.includes(col.name),'text-center':col.center,'text-end':col.right || col.typeinput==='number'}"
+
+                          bsDatepicker
+                          placeholder="dd/mm/aaaa"
+                          #dp="bsDatepicker"
+                          [formControlName]="col.name"
+                          [bsConfig]="{
+                              isAnimated: true,
+                              dateInputFormat: 'DD/MM/YYYY',
+                              containerClass: 'theme-dark-blue'
+                          }"
+                          [type]="col.typeinput"
+                          />
+                          </div>
+                          </div>
+
+                        </div>
+                            </div>
+            </form>
+            <hr />
+            Los campos marcados con <strong class="leyenda-req-2">*</strong> son
+            obligatorios
+          </div>
+          <div #spinner class="row " *ngIf="!loadTemplate">
+            <div class="col-12 text-center m-2">
+              <i class="fa fa-spinner fa-spin fa-5x"></i>
+            </div>
+          </div>
+          <div class="card-footer" *ngIf="wantActions">
+            <div class="justify-content-between d-flex w-100-sm">
+              <button
+                class="btn btn-danger active font-weight-bold text-white"
+                style="width: 25%"
+                [routerLink]="[useProjectRoutes]"
+              >
+                CANCELAR
+              </button>
+              <button
+              class="font-weight-bold "
+                [ngClass]="
+                  forEdit ? 'btn  btn-success active text-white' : 'btn  btn-primary active text-white'
+                "
+                style="width: 25%"
+                (click)="submit()"
+                [disabled]="form.invalid && disableIfInvalid"
+              >
+                {{ forEdit ? "GUARDAR" : "CREAR" }}
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
   

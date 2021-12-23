@@ -7,7 +7,6 @@ import { CoreFooterComponent } from "./core-footer/core-footer.component";
 
 import {
   AppAsideModule,
-  AppBreadcrumbModule,
   AppHeaderModule,
   AppFooterModule,
   AppSidebarModule,
@@ -15,11 +14,17 @@ import {
 
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { TabsModule } from "ngx-bootstrap/tabs";
-import { ChartsModule } from "ng2-charts";
 import { CoreSidenavComponent } from "./core-sidenav/core-sidenav.component";
 import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from "ngx-bootstrap/modal";
+import { MedicoHeaderComponent } from "./core-header/options/medico/medico.header.component";
+import { MedicoSidenavComponent } from "./core-sidenav/option/medico/medico.sidebar.component";
+import { LoaderComponent } from "./loader/loader.component";
+import { NotificationsComponent } from './notifications/notification.component';
+import { AplicacionesComponent } from "./aplicaciones/aplicaciones.component";
+import { SharedModule } from '../shared/shared.module';
+import { CoreAlertsComponent } from "./alerts/alerts.component";
 
 @NgModule({
   declarations: [
@@ -27,6 +32,12 @@ import { ModalModule } from "ngx-bootstrap/modal";
     CoreRightnavComponent,
     CoreFooterComponent,
     CoreSidenavComponent,
+    NotificationsComponent,
+    LoaderComponent,
+    AplicacionesComponent,
+    MedicoHeaderComponent,
+    MedicoSidenavComponent,
+    CoreAlertsComponent
   ],
   imports: [
     CommonModule,
@@ -41,12 +52,15 @@ import { ModalModule } from "ngx-bootstrap/modal";
     ReactiveFormsModule,
     FormsModule,
     ModalModule,
+    SharedModule
   ],
   exports: [
     CoreHeaderComponent,
     CoreRightnavComponent,
     CoreFooterComponent,
     CoreSidenavComponent,
+    LoaderComponent,
+    CoreAlertsComponent
   ],
 })
 export class CoreModule {}

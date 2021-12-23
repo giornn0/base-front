@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-shared-searcher',
@@ -6,7 +6,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
   styleUrls: ['./shared-searcher.component.scss']
 })
 export class SharedSearcherComponent implements OnInit {
-
+  @Input()placeholder=null
   @Output()valueSearch : EventEmitter<string> = new EventEmitter()
 
   constructor() { }

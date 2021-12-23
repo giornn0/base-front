@@ -10,7 +10,7 @@ export const GenericDelay = ({
         if ((retryAttempt >1 ||error.status !=419)){
           return throwError(error);
         }
-        return timer(2000);
+        return timer(2500);
       }),
       finalize(() => {}),
   );

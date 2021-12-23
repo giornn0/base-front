@@ -3,27 +3,20 @@ import { Directive, ElementRef, EventEmitter, HostListener, Output } from '@angu
 @Directive({
   selector: '[appOnClick]'
 })
-export class onClickDirective {
+export class OnClickDirective {
 
-  // @Output()
+  @Output()mouseOver: EventEmitter<any>=  new EventEmitter()
+  @Output()mouseOff: EventEmitter<any>=  new EventEmitter()
 
-  @Output()clicked: EventEmitter<boolean> = new EventEmitter()
+  @Output()clickInside:EventEmitter<any>=  new EventEmitter()
 
-  waiting ;
   constructor(private elementRef: ElementRef) { }
 
-  @HostListener('document:click',['$event.target'])mouseHover(event:any){
-    const clickIn = this. elementRef.nativeElement.contains(event)
-    this.clicked.emit(clickIn)
+  @HostListener('click',['event'])clicking(target:any){
+    this.clickInside.emit()
   }
-
-  // @HostListener('mouseleave')mouseLeave(){
-  //   this.waiting  = setTimeout(()=>{
-  //     this.clicked.emit(false)
-  //   },2000)
-  // }
-  // @HostListener('mouseenter')mouseEnter(){
-  //   clearTimeout(this.waiting)
-  // }
+  @HostListener('mouseleave')leaving(){
+    this.mouseOff.emit()
+  }
 
 }

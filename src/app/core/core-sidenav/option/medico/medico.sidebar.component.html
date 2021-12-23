@@ -1,0 +1,150 @@
+  <!-- Side Header (mini Sidebar mode) -->
+  <!-- END Side Header (mini Sidebar mode) -->
+
+  <!-- Side Header (normal Sidebar mode) -->
+  <div class="smini-hidden">
+    <div class="content-header justify-content-lg-center">
+      <!-- Logo -->
+      <a class="fw-semibold text-white tracking-wide" href="index.html">
+        <span class="smini-visible">
+          A<span class="opacity-75">R</span>
+        </span>
+        <span class="smini-hidden">
+          APD<span class="opacity-75">TR</span>
+        </span>
+      </a>
+      <!-- END Logo -->
+
+      <!-- Options -->
+      <div class="d-lg-none">
+        <!-- Close Sidebar, Visible only on mobile screens -->
+        <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
+        <button type="button" class="btn btn-sm btn-alt-secondary d-lg-none" data-toggle="layout" data-action="sidebar_close" type="button" (click)="toggleSidebar()">
+          <i class="fa fa-times-circle"></i>
+        </button>
+        <!-- END Close Sidebar -->
+      </div>
+      <!-- END Options -->
+    </div>
+  </div>
+  <!-- END Side Header (normal Sidebar mode) -->
+
+  <!-- Sidebar Scrolling -->
+  <div class="js-sidebar-scroll">
+    <!-- Side Actions -->
+    <div class="content-side content-side-full text-center bg-black-10">
+      <div class="smini-hide">
+        <img class="img-avatar" src="assets/media/avatars/avatar15.jpg" alt="">
+        <div class="mt-2 mb-1 fw-semibold">Dr. {{userName}}</div>
+        <a class="text-white-50 me-1" href="javascript:void(0)">
+          <i class="fa fa-fw fa-user-md"></i>
+        </a>
+        <a class="text-white-50 me-1" href="javascript:void(0)">
+          <i class="fa fa-fw fa-cog"></i>
+        </a>
+        <a class="text-white-50" >
+          <i class="fa fa-fw fa-sign-out-alt" type="button" (click)="logOut()"></i>
+        </a>
+      </div>
+    </div>
+    <!-- END Side Actions -->
+
+    <!-- Side Navigation -->
+    <div class="content-side">
+      <ul class="nav-main">
+        <li class="nav-main-item">
+          <a class="nav-main-link active" href="db_medical.html">
+            <i class="nav-main-link-icon fa fa-hospital"></i>
+            <span class="nav-main-link-name">Overview</span>
+            <span class="nav-main-link-badge badge rounded-pill bg-success">3</span>
+          </a>
+        </li>
+        <li class="nav-main-heading">Administrar</li>
+        <li class="nav-main-item" [ngClass]="{'open':openMenus.includes('pacientes')}">
+          <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" type="button" (click)="toggleSide('pacientes')">
+            <i class="nav-main-link-icon fa fa-user-circle"></i>
+            <span class="nav-main-link-name">Pacientes</span>
+          </a>
+          <ul class="nav-main-submenu">
+            <li class="nav-main-item">
+              <a class="nav-main-link" href="">
+                <span class="nav-main-link-name">Actuales</span>
+              </a>
+            </li>
+            <li class="nav-main-item">
+              <a class="nav-main-link" href="">
+                <span class="nav-main-link-name">Administrar</span>
+              </a>
+            </li>
+            <li class="nav-main-item">
+              <a class="nav-main-link" href="">
+                <span class="nav-main-link-name">Agregar</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-main-item" [ngClass]="{'open':openMenus.includes('citas')}">
+          <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" type="button" (click)="toggleSide('citas')">
+            <i class="nav-main-link-icon fa fa-calendar"></i>
+            <span class="nav-main-link-name">Citas</span>
+          </a>
+          <ul class="nav-main-submenu">
+            <li class="nav-main-item">
+              <a class="nav-main-link" href="">
+                <span class="nav-main-link-name">Activas</span>
+              </a>
+            </li>
+            <li class="nav-main-item">
+              <a class="nav-main-link" href="">
+                <span class="nav-main-link-name">Administrar</span>
+              </a>
+            </li>
+            <li class="nav-main-item">
+              <a class="nav-main-link" href="">
+                <span class="nav-main-link-name">Agregar</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-main-heading">Configuraciones</li>
+        <li class="nav-main-item">
+          <a class="nav-main-link" href="">
+            <i class="nav-main-link-icon fa fa-pencil-alt"></i>
+            <span class="nav-main-link-name">Perfil</span>
+          </a>
+        </li>
+        <li class="nav-main-item">
+          <a class="nav-main-link" href="">
+            <i class="nav-main-link-icon fa fa-lock"></i>
+            <span class="nav-main-link-name">Seguridad</span>
+          </a>
+        </li>
+        <li class="nav-main-item">
+          <a class="nav-main-link" href="">
+            <i class="nav-main-link-icon fa fa-flag"></i>
+            <span class="nav-main-link-name">Notificaciones</span>
+          </a>
+        </li>
+        <li class="nav-main-heading">Ayuda</li>
+        <li class="nav-main-item">
+          <a class="nav-main-link" href="">
+            <i class="nav-main-link-icon fa fa-book"></i>
+            <span class="nav-main-link-name">Bases</span>
+          </a>
+        </li>
+        <li class="nav-main-item">
+          <a class="nav-main-link" href="">
+            <i class="nav-main-link-icon fa fa-comments"></i>
+            <span class="nav-main-link-name">Foro del Centro</span>
+          </a>
+        </li>
+        <li class="nav-main-heading">Sesión</li>
+        <li class="nav-main-item">
+          <a class="nav-main-link" type="button" (click)="logOut()">
+            <i class="nav-main-link-icon fa fa-fw fa-sign-out-alt"></i>
+            <span class="nav-main-link-name">Cerrar Sesión</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>

@@ -11,6 +11,9 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { SharedTakePaginatorComponent } from './components/shared-take-paginator/shared-take-paginator.component';
 import { SharedSearcherComponent } from './components/shared-searcher/shared-searcher.component';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { OnClickDirective } from './directives/on-click.directive';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 
 @NgModule({
@@ -21,16 +24,28 @@ import { ClickOutsideDirective } from './directives/click-outside.directive';
     OnMouseHoverDirective,
     SharedTakePaginatorComponent,
     SharedSearcherComponent,
-    ClickOutsideDirective
+    ClickOutsideDirective,
+    OnClickDirective,
+    AutofocusDirective
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
     ModalModule,
+    TooltipModule,
     PaginationModule,
+    BsDropdownModule
   ],
-  exports:[ButtonsActionsComponent, ConfirmModalComponent,OnMouseHoverDirective, SharedTakePaginatorComponent, SharedSearcherComponent,
-    ClickOutsideDirective]
+  exports:[
+    ButtonsActionsComponent,
+    ConfirmModalComponent,
+    SharedTakePaginatorComponent,
+    SharedSearcherComponent,
+    ClickOutsideDirective,
+    OnMouseHoverDirective,
+    OnClickDirective,
+    AutofocusDirective,
+  ]
 })
 export class SharedModule { }

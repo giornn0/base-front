@@ -1,7 +1,7 @@
 <div class="input-group append">
     <input
       class="form-control"
-      placeholder="Busqueda.."
+      [placeholder]="placeholder?placeholder:'Buscar..'"
       id="busqueda"
       #busqueda
       (keyup)="searchByEvent($event, busqueda.value)"
